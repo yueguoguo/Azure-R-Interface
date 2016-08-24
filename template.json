@@ -2,31 +2,31 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "virtualMachines_linuxds4_adminPassword": {
+        "virtualMachines_DSVM_adminPassword": {
             "defaultValue": null,
             "type": "SecureString"
         },
-        "virtualMachines_linuxds4_name": {
+        "virtualMachines_DSVM_name": {
             "defaultValue": "linuxds4",
             "type": "String"
         },
-        "networkInterfaces_linuxds4571_name": {
+        "networkInterfaces_DSVMNIC_name": {
             "defaultValue": "linuxds4571",
             "type": "String"
         },
-        "networkSecurityGroups_linuxds4_nsg_name": {
+        "networkSecurityGroups_DSVM_name": {
             "defaultValue": "linuxds4-nsg",
             "type": "String"
         },
-        "publicIPAddresses_linuxds4_ip_name": {
+        "publicIPAddresses_DSVM_name": {
             "defaultValue": "linuxds4-ip",
             "type": "String"
         },
-        "virtualNetworks_linuxds4_vnet_name": {
+        "virtualNetworks_DSVMVN_name": {
             "defaultValue": "linuxds4-vnet",
             "type": "String"
         },
-        "storageAccounts_linuxds4694_name": {
+        "storageAccounts_dsvm_name": {
             "defaultValue": "linuxds4694",
             "type": "String"
         }
