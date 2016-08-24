@@ -193,10 +193,7 @@
             "location": "eastasia",
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
-                "idleTimeoutInMinutes": 4,
-                "dnsSettings": {
-                    "domainNameLabel": "linuxds4"
-                }
+                "idleTimeoutInMinutes": 4
             },
             "resources": [],
             "dependsOn": []
