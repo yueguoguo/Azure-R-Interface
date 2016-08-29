@@ -180,6 +180,7 @@
                             "direction": "Inbound"
                         }
                     },
+                    {
                         "name": "ParallelNode",
                         "properties": {
                             "protocol": "TCP",
@@ -191,6 +192,7 @@
                             "priority": 1040,
                             "direction": "Inbound"
                         }
+                    }
                 ]
             },
             "resources": [],
