@@ -73,7 +73,6 @@
                         "ssh": {
                             "publicKeys": [
                                 {
-                                    "path": "/home/zhle/.ssh/authorized_keys",
                                     "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAg0xuRigBX3bJp/Lncfeab1ASZUW5VY2evcS8lNsxQY1WAfc1LeXS+4raz2s9yVVhVKeqJ8uLMYRbAmoaV9p9vT+iexPA8iy4kDVWYW27asQWkrIo65P9SpSZMhOM1tRxW9X+hD8Ih6oQdiODx0fJZXqoJ4E3D0W6SvX2Jp4/0f84+EMNGOQGzBPWAQCVA6A8g1ymVYp+AC2NlDRp7nVCzTFE4AuGDS/6IZ8yMezZnWrMwwW6UBaTFaL8ZthkeRvlGqiTLL7jbR5gcsqfsfZxsjpiOvx8Po/oi5VHLsf/7ltSJIi9QtOwhVI/INcGAy8l/ApKnrMNGzte/sw3RRkv7Q=="
                                 }
                             ]
