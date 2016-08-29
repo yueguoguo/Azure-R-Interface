@@ -179,7 +179,18 @@
                             "priority": 1030,
                             "direction": "Inbound"
                         }
-                    }
+                    },
+                        "name": "ParallelNode",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "11000-11999",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1040,
+                            "direction": "Inbound"
+                        }
                 ]
             },
             "resources": [],
