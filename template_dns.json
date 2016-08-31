@@ -195,7 +195,7 @@
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "linxudsvm"
+                    "domainNameLabel": "dsvmdnslabel"
                 }
             },
             "resources": [],
@@ -243,3 +243,4 @@
         }
     ]
 }
+
