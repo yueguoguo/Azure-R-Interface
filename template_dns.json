@@ -26,7 +26,7 @@
             "defaultValue": "linuxds4-vnet",
             "type": "String"
         },
-        "storageAccounts_dsvm_name": {
+        "storageAccounts_DSVM_name": {
             "defaultValue": "linuxds4694",
             "type": "String"
         }
