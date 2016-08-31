@@ -167,7 +167,7 @@
                             "direction": "Inbound"
                         }
                     },
-                    {
+		    {
                         "name": "ParallelNode",
                         "properties": {
                             "protocol": "TCP",
@@ -256,4 +256,3 @@
         }
     ]
 }
-
