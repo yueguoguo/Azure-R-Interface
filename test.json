@@ -208,7 +208,7 @@
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "dsvm_dns_label"
+                    "domainNameLabel": "testdsvm"
                 }
             },
             "resources": [],
