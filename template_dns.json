@@ -208,7 +208,7 @@
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "linuxds001"
+                    "domainNameLabel": "somelabel"
                 }
             },
             "resources": [],
