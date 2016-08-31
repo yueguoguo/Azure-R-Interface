@@ -10,8 +10,8 @@
             "defaultValue": "linuxdsvm",
             "type": "String"
         },
-        "networkInterfaces_linuxdsvm448_name": {
-            "defaultValue": "linuxdsvm448",
+        "networkInterfaces_linuxdsvmnic_name": {
+            "defaultValue": "linuxdsvmnic",
             "type": "String"
         },
         "networkSecurityGroups_linuxdsvm_nsg_name": {
@@ -26,8 +26,8 @@
             "defaultValue": "linuxdsvm-vnet",
             "type": "String"
         },
-        "storageAccounts_linuxdsvmdisks727_name": {
-            "defaultValue": "linuxdsvmdisks727",
+        "storageAccounts_linuxdsvmsa_name": {
+            "defaultValue": "linuxdsvmsa",
             "type": "String"
         }
     },
@@ -59,7 +59,7 @@
                         "name": "[parameters('virtualMachines_linuxdsvm_name')]",
                         "createOption": "FromImage",
                         "vhd": {
-                            "uri": "[concat('https', '://', parameters('storageAccounts_linuxdsvmdisks727_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_linuxdsvm_name'),'2016731112618.vhd'))]"
+                            "uri": "[concat('https', '://', parameters('storageAccounts_linuxdsvmsa_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_linuxdsvm_name'),'2016731112618.vhd'))]"
                         },
                         "caching": "ReadWrite"
                     },
@@ -85,21 +85,21 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_linuxdsvm448_name'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_linuxdsvmnic_name'))]"
                         }
                     ]
                 }
             },
             "resources": [],
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_linuxdsvmdisks727_name'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_linuxdsvm448_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_linuxdsvmsa_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_linuxdsvmnic_name'))]"
             ]
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Network/networkInterfaces/linuxdsvm448'.",
+            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Network/networkInterfaces/linuxdsvmnic'.",
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[parameters('networkInterfaces_linuxdsvm448_name')]",
+            "name": "[parameters('networkInterfaces_linuxdsvmnic_name')]",
             "apiVersion": "2016-03-30",
             "location": "eastasia",
             "properties": {
@@ -239,14 +239,14 @@
             "dependsOn": []
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Storage/storageAccounts/linuxdsvmdisks727'.",
+            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Storage/storageAccounts/linuxdsvmsa'.",
             "type": "Microsoft.Storage/storageAccounts",
             "sku": {
                 "name": "Premium_LRS",
                 "tier": "Premium"
             },
             "kind": "Storage",
-            "name": "[parameters('storageAccounts_linuxdsvmdisks727_name')]",
+            "name": "[parameters('storageAccounts_linuxdsvmsa_name')]",
             "apiVersion": "2016-01-01",
             "location": "eastasia",
             "tags": {},
