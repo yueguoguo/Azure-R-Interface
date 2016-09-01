@@ -2,41 +2,41 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "virtualMachines_linuxdsvm_adminPassword": {
+        "virtualMachines_newdsvm_adminPassword": {
             "defaultValue": null,
             "type": "SecureString"
         },
-        "virtualMachines_linuxdsvm_name": {
-            "defaultValue": "linuxdsvm",
+        "virtualMachines_newdsvm_name": {
+            "defaultValue": "newdsvm",
             "type": "String"
         },
-        "networkInterfaces_linuxdsvmnic_name": {
-            "defaultValue": "linuxdsvmnic",
+        "networkInterfaces_newdsvm161_name": {
+            "defaultValue": "newdsvm161",
             "type": "String"
         },
-        "networkSecurityGroups_linuxdsvm_nsg_name": {
-            "defaultValue": "linuxdsvm-nsg",
+        "networkSecurityGroups_newdsvm_nsg_name": {
+            "defaultValue": "newdsvm-nsg",
             "type": "String"
         },
-        "publicIPAddresses_linuxdsvm_ip_name": {
-            "defaultValue": "linuxdsvm-ip",
+        "publicIPAddresses_newdsvm_ip_name": {
+            "defaultValue": "newdsvm-ip",
             "type": "String"
         },
-        "virtualNetworks_linuxdsvm_vnet_name": {
-            "defaultValue": "linuxdsvm-vnet",
+        "virtualNetworks_dsvm_vnet_name": {
+            "defaultValue": "dsvm-vnet",
             "type": "String"
         },
-        "storageAccounts_linuxdsvmsa_name": {
-            "defaultValue": "linuxdsvmsa",
+        "storageAccounts_dsvmdisks490_name": {
+            "defaultValue": "dsvmdisks490",
             "type": "String"
         }
     },
     "variables": {},
     "resources": [
         {
-            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Compute/virtualMachines/linuxdsvm'.",
+            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/dsvm/providers/Microsoft.Compute/virtualMachines/newdsvm'.",
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[parameters('virtualMachines_linuxdsvm_name')]",
+            "name": "[parameters('virtualMachines_newdsvm_name')]",
             "apiVersion": "2015-06-15",
             "location": "eastasia",
             "plan": {
@@ -52,21 +52,21 @@
                     "imageReference": {
                         "publisher": "microsoft-ads",
                         "offer": "linux-data-science-vm",
-                        "sku": "[parameters('virtualMachines_linuxdsvm_name')]",
+                        "sku": "linuxdsvm",
                         "version": "latest"
                     },
                     "osDisk": {
-                        "name": "[parameters('virtualMachines_linuxdsvm_name')]",
+                        "name": "[parameters('virtualMachines_newdsvm_name')]",
                         "createOption": "FromImage",
                         "vhd": {
-                            "uri": "[concat('https', '://', parameters('storageAccounts_linuxdsvmsa_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_linuxdsvm_name'),'2016731112618.vhd'))]"
+                            "uri": "[concat('https', '://', parameters('storageAccounts_dsvmdisks490_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_newdsvm_name'),'20168192442.vhd'))]"
                         },
                         "caching": "ReadWrite"
                     },
                     "dataDisks": []
                 },
                 "osProfile": {
-                    "computerName": "[parameters('virtualMachines_linuxdsvm_name')]",
+                    "computerName": "[parameters('virtualMachines_newdsvm_name')]",
                     "adminUsername": "dsvm_username",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
@@ -80,26 +80,26 @@
                         }
                     },
                     "secrets": [],
-                    "adminPassword": "[parameters('virtualMachines_linuxdsvm_adminPassword')]"
+                    "adminPassword": "[parameters('virtualMachines_newdsvm_adminPassword')]"
                 },
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_linuxdsvmnic_name'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_newdsvm161_name'))]"
                         }
                     ]
                 }
             },
             "resources": [],
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_linuxdsvmsa_name'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_linuxdsvmnic_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_dsvmdisks490_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_newdsvm161_name'))]"
             ]
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Network/networkInterfaces/linuxdsvmnic'.",
+            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/dsvm/providers/Microsoft.Network/networkInterfaces/newdsvm161'.",
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[parameters('networkInterfaces_linuxdsvmnic_name')]",
+            "name": "[parameters('networkInterfaces_newdsvm161_name')]",
             "apiVersion": "2016-03-30",
             "location": "eastasia",
             "properties": {
@@ -107,13 +107,13 @@
                     {
                         "name": "ipconfig1",
                         "properties": {
-                            "privateIPAddress": "10.5.0.4",
+                            "privateIPAddress": "10.0.0.4",
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_linuxdsvm_ip_name'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_newdsvm_ip_name'))]"
                             },
                             "subnet": {
-                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_linuxdsvm_vnet_name')), '/subnets/default')]"
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dsvm_vnet_name')), '/subnets/default')]"
                             }
                         }
                     }
@@ -123,20 +123,20 @@
                 },
                 "enableIPForwarding": false,
                 "networkSecurityGroup": {
-                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_linuxdsvm_nsg_name'))]"
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_newdsvm_nsg_name'))]"
                 }
             },
             "resources": [],
             "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_linuxdsvm_ip_name'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_linuxdsvm_vnet_name'))]",
-                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_linuxdsvm_nsg_name'))]"
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_newdsvm_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dsvm_vnet_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_newdsvm_nsg_name'))]"
             ]
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Network/networkSecurityGroups/linuxdsvm-nsg'.",
+            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/dsvm/providers/Microsoft.Network/networkSecurityGroups/newdsvm-nsg'.",
             "type": "Microsoft.Network/networkSecurityGroups",
-            "name": "[parameters('networkSecurityGroups_linuxdsvm_nsg_name')]",
+            "name": "[parameters('networkSecurityGroups_newdsvm_nsg_name')]",
             "apiVersion": "2016-03-30",
             "location": "eastasia",
             "properties": {
@@ -168,19 +168,6 @@
                         }
                     },
                     {
-                        "name": "ParallelNode",
-                        "properties": {
-                            "protocol": "TCP",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "11000-11999",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 1040,
-                            "direction": "Inbound"
-                        }
-                    },
-                    {
                         "name": "default-allow-ssh",
                         "properties": {
                             "protocol": "TCP",
@@ -192,6 +179,19 @@
                             "priority": 1030,
                             "direction": "Inbound"
                         }
+                    },
+                    {
+                        "name": "parallel-node",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "11000-11999",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1040,
+                            "direction": "Inbound"
+                        }
                     }
                 ]
             },
@@ -199,9 +199,9 @@
             "dependsOn": []
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Network/publicIPAddresses/linuxdsvm-ip'.",
+            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/dsvm/providers/Microsoft.Network/publicIPAddresses/newdsvm-ip'.",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[parameters('publicIPAddresses_linuxdsvm_ip_name')]",
+            "name": "[parameters('publicIPAddresses_newdsvm_ip_name')]",
             "apiVersion": "2016-03-30",
             "location": "eastasia",
             "properties": {
@@ -215,22 +215,22 @@
             "dependsOn": []
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Network/virtualNetworks/linuxdsvm-vnet'.",
+            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/dsvm/providers/Microsoft.Network/virtualNetworks/dsvm-vnet'.",
             "type": "Microsoft.Network/virtualNetworks",
-            "name": "[parameters('virtualNetworks_linuxdsvm_vnet_name')]",
+            "name": "[parameters('virtualNetworks_dsvm_vnet_name')]",
             "apiVersion": "2016-03-30",
             "location": "eastasia",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "10.5.0.0/16"
+                        "10.0.0.0/16"
                     ]
                 },
                 "subnets": [
                     {
                         "name": "default",
                         "properties": {
-                            "addressPrefix": "10.5.0.0/24"
+                            "addressPrefix": "10.0.0.0/24"
                         }
                     }
                 ]
@@ -239,14 +239,14 @@
             "dependsOn": []
         },
         {
-            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/linuxdsvm/providers/Microsoft.Storage/storageAccounts/linuxdsvmsa'.",
+            "comments": "Generalized from resource: '/subscriptions/9fe2c50a-49af-401a-89d9-9360283d0bc6/resourceGroups/dsvm/providers/Microsoft.Storage/storageAccounts/dsvmdisks490'.",
             "type": "Microsoft.Storage/storageAccounts",
             "sku": {
                 "name": "Premium_LRS",
                 "tier": "Premium"
             },
             "kind": "Storage",
-            "name": "[parameters('storageAccounts_linuxdsvmsa_name')]",
+            "name": "[parameters('storageAccounts_dsvmdisks490_name')]",
             "apiVersion": "2016-01-01",
             "location": "eastasia",
             "tags": {},
@@ -256,4 +256,3 @@
         }
     ]
 }
-
