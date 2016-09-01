@@ -74,7 +74,7 @@
                             "publicKeys": [
                                 {
                                     "path": "/home/zhle/.ssh/authorized_keys",
-                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNueGaJyZRDOxJPdy307nK6lu1Sd8dpZirR7EIeUQVunsm6OhKRv3BTsPUV7nyCXTka40TzzjAGbV1xL0Sx92A8HZv3mQf+2lIY6sIYGfbvqZVTCktR/ax5k6EYW+PpjIo3x4eqBUtOQg6yHD/yCoNtnaq+8rhZBxG5ZMAC8P8o8E6oeTyoVMver+F3nG1Gq18/25H5O8DLW8HQpzoB/FD1ZSnkL0iiu5PvF5/FchVgYsPmmTihSltLoO2DWZudE6lPR0L0nkKoTUvEqZARHDxUylD+cZ44BXpIRLkmgnh7Jg+gjMLFQdI5IZ7NksY9ClNd8iqknXF3pVvB4sLw1VD"
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAg0xuRigBX3bJp/Lncfeab1ASZUW5VY2evcS8lNsxQY1WAfc1LeXS+4raz2s9yVVhVKeqJ8uLMYRbAmoaV9p9vT+iexPA8iy4kDVWYW27asQWkrIo65P9SpSZMhOM1tRxW9X+hD8Ih6oQdiODx0fJZXqoJ4E3D0W6SvX2Jp4/0f84+EMNGOQGzBPWAQCVA6A8g1ymVYp+AC2NlDRp7nVCzTFE4AuGDS/6IZ8yMezZnWrMwwW6UBaTFaL8ZthkeRvlGqiTLL7jbR5gcsqfsfZxsjpiOvx8Po/oi5VHLsf/7ltSJIi9QtOwhVI/INcGAy8l/ApKnrMNGzte/sw3RRkv7Q=="
                                 }
                             ]
                         }
