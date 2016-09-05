@@ -208,7 +208,7 @@
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "zlvm006dns"
+                    "domainNameLabel": "zlvm007dns"
                 }
             },
             "resources": [],
