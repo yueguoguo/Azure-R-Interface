@@ -208,7 +208,7 @@
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "newvm001dns"
+                    "domainNameLabel": "newvm002dns"
                 }
             },
             "resources": [],
