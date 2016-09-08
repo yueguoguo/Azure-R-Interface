@@ -3,25 +3,25 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "virtualMachines_newdsvm_adminPassword": {
-            "value": null
+            "value": "admin"
         },
         "virtualMachines_newdsvm_name": {
-            "value": null
+            "value": "default"
         },
         "networkInterfaces_newdsvm161_name": {
-            "value": null
+            "value": "defaultnic"
         },
         "networkSecurityGroups_newdsvm_nsg_name": {
-            "value": null
+            "value": "defaultsg"
         },
         "publicIPAddresses_newdsvm_ip_name": {
-            "value": null
+            "value": "defaultip"
         },
         "virtualNetworks_dsvm_vnet_name": {
-            "value": null
+            "value": "defaultvnet"
         },
         "storageAccounts_dsvmdisks490_name": {
-            "value": null
+            "value": "defaultsa"
         }
     }
 }
