@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_newdsvm_adminPassword": {
+            "value": "admin_pwd"
+        },
+        "virtualMachines_newdsvm_name": {
+            "value": "msvm001_name"
+        },
+        "networkInterfaces_newdsvm161_name": {
+            "value": "msvm001_nic"
+        },
+        "networkSecurityGroups_newdsvm_nsg_name": {
+            "value": "msvm001_sg"
+        },
+        "publicIPAddresses_newdsvm_ip_name": {
+            "value": "msvm001_ip"
+        },
+        "virtualNetworks_dsvm_vnet_name": {
+            "value": "msvm001_vnet"
+        },
+        "storageAccounts_dsvmdisks490_name": {
+            "value": "msvm001_sa"
+        }
+    }
+}
