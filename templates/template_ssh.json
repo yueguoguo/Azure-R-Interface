@@ -241,8 +241,8 @@
             "location": "[resourceGroup().location]",
             "tags": {},
             "properties": {
-		    "accountType": "Standard_LRS"
-	    },
+                "accountType": "Standard_LRS"
+            },
             "resources": [],
             "dependsOn": []
         }
