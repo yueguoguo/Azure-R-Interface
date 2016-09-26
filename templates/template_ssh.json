@@ -37,7 +37,7 @@
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[parameters('virtualMachines_newdsvm_name')]",
             "apiVersion": "2015-06-15",
-            "location": "eastasia",
+            "location": "[resourceGroup().location]",
             "plan": {
                 "name": "linuxdsvm",
                 "product": "linux-data-science-vm",
@@ -99,7 +99,7 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[parameters('networkInterfaces_newdsvm161_name')]",
             "apiVersion": "2016-03-30",
-            "location": "eastasia",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "ipConfigurations": [
                     {
@@ -135,7 +135,7 @@
             "type": "Microsoft.Network/networkSecurityGroups",
             "name": "[parameters('networkSecurityGroups_newdsvm_nsg_name')]",
             "apiVersion": "2016-03-30",
-            "location": "eastasia",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "securityRules": [
                     {
@@ -199,7 +199,7 @@
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "[parameters('publicIPAddresses_newdsvm_ip_name')]",
             "apiVersion": "2016-03-30",
-            "location": "eastasia",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
@@ -214,7 +214,7 @@
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[parameters('virtualNetworks_dsvm_vnet_name')]",
             "apiVersion": "2016-03-30",
-            "location": "eastasia",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -238,7 +238,7 @@
             "kind": "Storage",
             "name": "[parameters('storageAccounts_dsvmdisks490_name')]",
             "apiVersion": "2016-01-01",
-            "location": "eastasia",
+            "location": "[resourceGroup().location]",
             "tags": {},
             "properties": {},
             "resources": [],
