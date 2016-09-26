@@ -235,7 +235,6 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
-            "kind": "Storage",
             "name": "[parameters('storageAccounts_dsvmdisks490_name')]",
             "apiVersion": "2016-01-01",
             "location": "[resourceGroup().location]",
