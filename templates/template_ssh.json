@@ -236,12 +236,13 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "kind": "Storage",
-	    "storageAccountType": "Standard_LRS",
             "name": "[parameters('storageAccounts_dsvmdisks490_name')]",
             "apiVersion": "2016-01-01",
             "location": "[resourceGroup().location]",
             "tags": {},
-            "properties": {},
+            "properties": {
+		    "accountType": "Standard_LRS"
+	    },
             "resources": [],
             "dependsOn": []
         }
