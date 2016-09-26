@@ -2,6 +2,36 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "variables": {},
+    "parameters": {
+        "virtualMachines_newdsvm_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_newdsvm_name": {
+            "defaultValue": "newdsvm",
+            "type": "String"
+        },
+        "networkInterfaces_newdsvm161_name": {
+            "defaultValue": "newdsvm161",
+            "type": "String"
+        },
+        "networkSecurityGroups_newdsvm_nsg_name": {
+            "defaultValue": "newdsvm-nsg",
+            "type": "String"
+        },
+        "publicIPAddresses_newdsvm_ip_name": {
+            "defaultValue": "newdsvm-ip",
+            "type": "String"
+        },
+        "virtualNetworks_dsvm_vnet_name": {
+            "defaultValue": "dsvm-vnet",
+            "type": "String"
+        },
+        "storageAccounts_dsvmdisks490_name": {
+            "defaultValue": "dsvmdisks490",
+            "type": "String"
+        }
+    },
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines",
@@ -15,7 +45,7 @@
             },
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_DS12"
+                    "vmSize": "Basic_A3"
                 },
                 "storageProfile": {
                     "imageReference": {
@@ -205,10 +235,6 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
-            "sku": {
-                "name": "Premium_LRS",
-                "tier": "Premium"
-            },
             "kind": "Storage",
             "name": "[parameters('storageAccounts_dsvmdisks490_name')]",
             "apiVersion": "2016-01-01",
