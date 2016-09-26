@@ -232,6 +232,21 @@
             },
             "resources": [],
             "dependsOn": []
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Premium_LRS",
+                "tier": "Premium"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_dsvmdisks490_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "eastasia",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
         }
     ]
 }
