@@ -1,27 +1,23 @@
-{
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "virtualMachines_newdsvm_adminPassword": {
-            "value": "admin_pwd"
-        },
-        "virtualMachines_newdsvm_name": {
-            "value": "defaultname"
-        },
-        "networkInterfaces_newdsvm161_name": {
-            "value": "defaultnic"
-        },
-        "networkSecurityGroups_newdsvm_nsg_name": {
-            "value": "defaultsg"
-        },
-        "publicIPAddresses_newdsvm_ip_name": {
-            "value": "defaultip"
-        },
-        "virtualNetworks_dsvm_vnet_name": {
-            "value": "defaultvnet"
-        },
-        "storageAccounts_dsvmdisks490_name": {
-            "value": "defaultsa"
-        }
+"parameters": {
+   "virtualMachines_newdsvm_adminPassword": {
+        "value": "admin_pwd"
+    },
+    "virtualMachines_newdsvm_name": {
+        "value": "defaultname"
+    },
+    "networkInterfaces_newdsvm161_name": {
+        "value": "defaultnic"
+    },
+    "networkSecurityGroups_newdsvm_nsg_name": {
+        "value": "defaultsg"
+    },
+    "publicIPAddresses_newdsvm_ip_name": {
+        "value": "defaultip"
+    },
+    "virtualNetworks_dsvm_vnet_name": {
+        "value": "defaultvnet"
+    },
+    "storageAccounts_dsvmdisks490_name": {
+        "value": "defaultsa"
     }
 }
