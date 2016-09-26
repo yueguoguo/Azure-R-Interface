@@ -1,36 +1,6 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "virtualMachines_newdsvm_adminPassword": {
-            "defaultValue": null,
-            "type": "SecureString"
-        },
-        "virtualMachines_newdsvm_name": {
-            "defaultValue": "newdsvm",
-            "type": "String"
-        },
-        "networkInterfaces_newdsvm161_name": {
-            "defaultValue": "newdsvm161",
-            "type": "String"
-        },
-        "networkSecurityGroups_newdsvm_nsg_name": {
-            "defaultValue": "newdsvm-nsg",
-            "type": "String"
-        },
-        "publicIPAddresses_newdsvm_ip_name": {
-            "defaultValue": "newdsvm-ip",
-            "type": "String"
-        },
-        "virtualNetworks_dsvm_vnet_name": {
-            "defaultValue": "dsvm-vnet",
-            "type": "String"
-        },
-        "storageAccounts_dsvmdisks490_name": {
-            "defaultValue": "dsvmdisks490",
-            "type": "String"
-        }
-    },
     "variables": {},
     "resources": [
         {
