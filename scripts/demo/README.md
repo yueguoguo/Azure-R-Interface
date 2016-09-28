@@ -5,17 +5,17 @@
 * SSH toolkit.
 
 ## Description of the scripts in folder.
-* deployVirtualmachineSSH.R
+* `deployVirtualmachineSSH.R`
 Demo script for firing up multiple VMs.
-* jsonGen.R
+* `jsonGen.R`
 Generate template json file for custom deployment.
-* sshSetup.R
+* `sshSetup.R`
 Demo script for setting up SSH for VM cluster.
-* rInterfaceObject.R
+* `rInterfaceObject.R`
 S4 class and method of rInterface.
-* main.R
+* `main.R`
 Demo script of using rInterface for executing R script on cluster.
-* script_parallel.R
+* `script_parallel.R`
 Demo script to be executed on cluster.
 
 ## Instructions on demo
