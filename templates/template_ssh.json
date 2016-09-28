@@ -235,14 +235,16 @@
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
             "kind": "Storage",
             "name": "[parameters('storageAccounts_dsvmdisks490_name')]",
             "apiVersion": "2016-01-01",
             "location": "[resourceGroup().location]",
             "tags": {},
-            "properties": {
-		    "accountType": "Standard_LRS"
-	    },
+            "properties": {},
             "resources": [],
             "dependsOn": []
         }
