@@ -3,6 +3,7 @@
 * Azure account subscription.
 * Application in Azure Active Directory with allowed access to the resource group.
 * SSH toolkit.
+
 ## Description of the scripts in folder.
 * deployVirtualmachineSSH.R
 Demo script for firing up multiple VMs.
