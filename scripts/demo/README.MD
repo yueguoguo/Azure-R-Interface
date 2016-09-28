@@ -1,3 +1,4 @@
+# INSTRUCTIONS
 ** Prerequisites
 * Azure account subscription.
 * Application in Azure Active Directory with allowed access to the resource group.
