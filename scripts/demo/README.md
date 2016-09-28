@@ -1,10 +1,9 @@
 # INSTRUCTIONS
-** Prerequisites
+## Prerequisites
 * Azure account subscription.
 * Application in Azure Active Directory with allowed access to the resource group.
 * SSH toolkit.
-
-** Description of the scripts in folder.
+## Description of the scripts in folder.
 * deployVirtualmachineSSH.R
 Demo script for firing up multiple VMs.
 * jsonGen.R
@@ -18,8 +17,8 @@ Demo script of using rInterface for executing R script on cluster.
 * script_parallel.R
 Demo script to be executed on cluster.
 
-** Instructions on demo
-1 Edit deployVirtualMachineSSH.R with account confidential and VM setups, and run it for firing up VMs.
-2 Run sshSetUp.R to set up the SSH environment for the VM cluster. 
-3 Write the R script that to remotely executed on VM cluster. 
-4 Customize main.R script with specified VM cluster, remote R script, and compute context set up, and run it.
+## Instructions on demo
+1. Edit deployVirtualMachineSSH.R with account confidential and VM setups, and run it for firing up VMs.
+2. Run sshSetUp.R to set up the SSH environment for the VM cluster. 
+3. Write the R script that to remotely executed on VM cluster. 
+4. Customize main.R script with specified VM cluster, remote R script, and compute context set up, and run it.
