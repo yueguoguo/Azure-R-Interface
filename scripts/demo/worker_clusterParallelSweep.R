@@ -1,0 +1,230 @@
+# ---------------------------------------------------------------------------
+# THIS IS A HEADER ADDED BY R INTERFACE
+# ---------------------------------------------------------------------------
+RI_MACHINES <- c( "msvm001", "msvm002", "msvm003", "msvm004", "msvm005" )
+RI_DNS <- c( "msvm001.eastasia.cloudapp.azure.com", "msvm002.eastasia.cloudapp.azure.com", "msvm003.eastasia.cloudapp.azure.com", "msvm004.eastasia.cloudapp.azure.com", "msvm005.eastasia.cloudapp.azure.com" )
+RI_VMUSER <- c( "zl" )
+RI_MASTER <- c( "msvm002.eastasia.cloudapp.azure.com" )
+RI_SLAVES <- c( "msvm001.eastasia.cloudapp.azure.com", "msvm003.eastasia.cloudapp.azure.com", "msvm004.eastasia.cloudapp.azure.com", "msvm005.eastasia.cloudapp.azure.com" )
+RI_DATA <- "https://msvm001sa.blob.core.windows.net/data/train_FD001.csv"
+RI_CONTEXT <- "clusterParallel"
+
+library(RevoScaleR)
+library(doParallel)
+cl <- makePSOCKcluster(names = RI_SLAVES, master = RI_MASTER, user = RI_VMUSER)
+registerDoParallel(cl)
+rxSetComputeContext(RxForeachDoPar())
+# ---------------------------------------------------------------------------
+# END OF THE HEADER ADDED BY R INTERFACE
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Your worker script starts from here ... 
+# ---------------------------------------------------------------------------
+time.start <- Sys.time()
+
+# libraries used
+library(dplyr)
+library(magrittr)
+library(ggplot2)
+
+# environment setup
+DATA_URL          <- RI_DATA
+LOCAL_DATA_DIR    <- "."
+LOCAL_DATA_NAME   <- "softLifeData.csv"
+
+# feature engineering
+LIFE_WINDOW       <- 10
+LAG_WINDOW        <- 5
+LAG_ALIGN         <- "right"
+
+# ----------------------------------------------------------------------------
+# Data preparation
+# ----------------------------------------------------------------------------
+# download and import data.
+download.file(url = DATA_URL,
+              destfile = file.path(LOCAL_DATA_DIR, LOCAL_DATA_NAME))
+
+df <- read.csv(file.path(LOCAL_DATA_DIR, LOCAL_DATA_NAME), header = T, sep = ",", stringsAsFactors = F)
+
+analytics <- function(df, life.window, lag.align, lag.window) {
+  library(dplyr)
+  library(magrittr)
+  library(zoo)
+  
+  # global variables used in the function.
+  TRAIN_RATIO       <- 0.7
+  TOP_FEATURES      <- 35
+  ALGO              <- "boosted tree"
+  
+  # ---- decision forest
+  if (ALGO == "decision forest") {
+    N_TREE            <- 100
+    TYPE              <- "class"
+    M_TRY             <- 3
+    CP                <- 0.01
+    X_CV              <- 5
+    
+    # ---- boosted tree
+  } else if (ALGO == "boosted tree") {
+    LEARN_RATE        <- 0.2
+    MIN_SPLIT         <- 10
+    MIN_BUCKET        <- 10
+    N_TREE            <- 100
+  } else {
+    stop("Specify an algorithm to train the model.")
+  }
+  
+  df.group <- 
+    group_by(df, id) %>%
+    summarise(count = n()) 
+  if(life.window > min(df.group$count)) stop("life.window too large.")
+  
+  df.data <-
+    select(df, -setting1, -setting2, -setting3) %>%
+    group_by(id) %>%
+    arrange(cycle) %>%
+    mutate(label = ifelse(row_number() > round(n() / 2), 1, 0)) %>%
+    filter(row_number() <= life.window | row_number() > n() - life.window)
+  
+  # label the data and aggregate the features.
+  fun.rollmean <- function(x) zoo::rollmean(x, lag.window, na.pad = TRUE, align = lag.align)
+  fun.rollsd <- function(x) zoo::rollapply(x, lag.window, FUN = sd, align = lag.align, fill = NA)
+  
+  # compute rolling mean and rolling standard deviation as new features.
+  names.raw <- rxGetVarNames(df.data)[3:23]
+  names.rollmean <- setNames(names.raw, paste0(names.raw, "_rollmean"))
+  names.rollsd <- setNames(names.raw, paste0(names.raw, "_rollsd"))
+  
+  df.feature <-
+    ungroup(df.data) %>%
+    group_by(id, label) %>%
+    mutate_each_(funs(fun.rollmean), names.rollmean) %>%
+    mutate_each_(funs(fun.rollsd), names.rollsd) %>%
+    select(-cycle)
+  
+  id.train <-
+    sample(df.group$id, round(nrow(df.group) * TRAIN_RATIO)) 
+  
+  df.feature.train <-
+    filter(df.feature, id %in% id.train) %>%
+    ungroup() %>%
+    select(-id)
+  
+  df.feature.test <-
+    filter(df.feature, !id %in% id.train) %>%
+    ungroup() %>%
+    select(-id)
+  
+  # df.feature.train$label <- as.factor(df.feature.train$label)
+  # df.feature.test$label <- as.factor(df.feature.test$label)
+  
+  # find the top 35 relevant features.
+  names.train <- rxGetVarNames(data = df.feature.train)
+  formula.train <- as.formula(paste("~ ", paste(names.train, collapse = "+")))
+  correlation.train <- rxCor(formula = formula.train,
+                             data = df.feature.train
+  )
+  correlation.train <- correlation.train[, "label"]
+  correlation.abs <- abs(correlation.train)
+  correlation.abs <- correlation.abs[order(correlation.abs, decreasing = TRUE)]
+  correlation.abs <- correlation.abs[-1]
+  correlation.abs <- correlation.abs[1:TOP_FEATURES]
+  formula.train.top <-
+    as.formula(paste(paste("label ~ "),
+                     paste(names(correlation.abs), collapse = "+")))
+  
+  # ----------------------------------------------------------------------------
+  # Model building
+  # ----------------------------------------------------------------------------
+  if (ALGO == "decision forest") {
+    model <- rxDForest(formula = formula.train.top, 
+                       seed = 10,
+                       data = df.feature.train, 
+                       cp = CP, 
+                       nTree = N_TREE, 
+                       mTry = M_TRY,
+                       verbose = 2
+    )
+  } else if (ALGO == "boosted tree") {
+    model <- rxBTrees(formula = formula.train.top, 
+                      seed = 10,
+                      data = df.feature.train, 
+                      learningRate = LEARN_RATE,
+                      nTree = N_TREE, 
+                      minSplit = MIN_SPLIT,
+                      minBucket = MIN_BUCKET,
+                      verbose = 2
+    )
+  } else {
+    stop("Please specify a valid algorithm for training the model.")
+  }
+  
+  # ----------------------------------------------------------------------------
+  # Evaluation on results
+  # ----------------------------------------------------------------------------
+  # binary classification model evaluation metrics
+  evaluate_model <- function(observed, predicted) {
+    confusion <- table(observed, predicted)
+    print(confusion)
+    tp <- confusion[1, 1]
+    fn <- confusion[1, 2]
+    fp <- confusion[2, 1]
+    tn <- confusion[2, 2]
+    accuracy <- (tp + tn) / (tp + fn + fp + tn)
+    precision <- tp / (tp + fp)
+    recall <- tp / (tp + fn)
+    fscore <- 2 * (precision * recall) / (precision + recall)
+    metrics <- c("Accuracy" = accuracy,
+                 "Precision" = precision,
+                 "Recall" = recall,
+                 "F-Score" = fscore)
+    print(data.frame(metrics))
+    return(metrics)
+  }
+  
+  df.test <- select(df.feature.test, select = -label)
+  prediction <- rxPredict(modelObject = model,
+                          data = df.feature.test,
+                          type = "prob",
+                          overwrite = TRUE)
+  
+  threshold <- 0.5
+  names(prediction) <- "pred.prob"
+  prediction$pred.prob <- ifelse(prediction$pred.prob > threshold, 1, 0)
+  prediction$pred.prob <- factor(prediction$pred.prob, levels = c(0, 1))
+  
+  print(sprintf("LIFE_WINDOW is %d and LAG_WINDOW is %d", life.window, lag.window))
+  
+  pred.metrics <- evaluate_model(observed = df.feature.test$label,
+                                 predicted = prediction$pred.prob)
+  
+  c(pred.metrics, life.window, lag.window)
+}
+
+# 2 experiments to sweep one parameter. (window = 20, lag = 3) and (window = 50, lag = 3)
+sys1 <- system.time(rxExec(analytics,
+                           df = df,
+                           life.window = rxElemArg(c(40, 50)),
+                           lag.align = "left",
+                           lag.window = rxElemArg(c(3, 3))) %T>% print())
+print("Time cost of experiment on one parameter:") 
+sprintf("%f minutes", sys1[3] / 60)
+
+# 4 experiments to sweep 2 parameters, i.e., (window = 20, lag = 3), (window = 20, lag = 5), (window = 50, lag = 3), and (window = 50, lag = 5)
+sys2 <- system.time(rxExec(analytics,
+                           df = df,
+                           life.window = rxElemArg(list(40, 40, 50, 50)),
+                           lag.align = "left",
+                           lag.window = rxElemArg(list(3, 5, 3, 5)),
+                           timesToRun = 4) %T>% print())
+print("Time cost of experiment on one parameter:") 
+sprintf("%f minutes", sys2[3] / 60)
+
+time.end <- Sys.time()
+print(time.end - time.start)
+
+# ----------------------------------------------------------------------------
+# Clean up.
+# ----------------------------------------------------------------------------
+file.remove(file.path(LOCAL_DATA_DIR, LOCAL_DATA_NAME))
