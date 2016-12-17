@@ -3,7 +3,7 @@
         "value": "admin_pwd"
     },
     "virtualMachines_newdsvm_name": {
-        "value": "defaultname"
+        "value": "default"
     },
     "networkInterfaces_newdsvm161_name": {
         "value": "defaultnic"
