@@ -13,8 +13,6 @@ Generate template json file for custom deployment.
 Demo script for setting up SSH for VM cluster.
 * `rInterfaceObject.R`
 S4 class and method of rInterface.
-* `main.R`
-Demo script of using rInterface for executing R script on cluster.
 * `master_clusterParallelSweeping.R`
 Master script that specifies the experiment environment such as header
 node, compute context, etc., for the analytical jobs. 

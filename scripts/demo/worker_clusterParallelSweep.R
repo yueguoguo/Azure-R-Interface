@@ -1,22 +1,12 @@
-# ---------------------------------------------------------------------------
-# THIS IS A HEADER ADDED BY R INTERFACE
-# ---------------------------------------------------------------------------
-RI_MACHINES <- c( "msvm001", "msvm002", "msvm003", "msvm004", "msvm005" )
-RI_DNS <- c( "msvm001.eastasia.cloudapp.azure.com", "msvm002.eastasia.cloudapp.azure.com", "msvm003.eastasia.cloudapp.azure.com", "msvm004.eastasia.cloudapp.azure.com", "msvm005.eastasia.cloudapp.azure.com" )
-RI_VMUSER <- c( "zl" )
-RI_MASTER <- c( "msvm002.eastasia.cloudapp.azure.com" )
-RI_SLAVES <- c( "msvm001.eastasia.cloudapp.azure.com", "msvm003.eastasia.cloudapp.azure.com", "msvm004.eastasia.cloudapp.azure.com", "msvm005.eastasia.cloudapp.azure.com" )
-RI_DATA <- "https://msvm001sa.blob.core.windows.net/data/train_FD001.csv"
-RI_CONTEXT <- "clusterParallel"
-
-library(RevoScaleR)
-library(doParallel)
-cl <- makePSOCKcluster(names = RI_SLAVES, master = RI_MASTER, user = RI_VMUSER)
-registerDoParallel(cl)
-rxSetComputeContext(RxForeachDoPar())
-# ---------------------------------------------------------------------------
-# END OF THE HEADER ADDED BY R INTERFACE
-# ---------------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# Worker script for cluster parallel experiments to sweep parameters.
+# ----------------------------------------------------------------------
+# AUTHORS:            Zhang Le.
+# CONTRIBUTORS:       Zhang Le.
+# DATE OF CREATION:   10-28-2016
+# DEPARTMENT:         IMML & ADS
+# COMPANY:            Microsoft
+# ----------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------
 # Your worker script starts from here ... 
@@ -31,7 +21,7 @@ library(ggplot2)
 # environment setup
 DATA_URL          <- RI_DATA
 LOCAL_DATA_DIR    <- "."
-LOCAL_DATA_NAME   <- "softLifeData.csv"
+LOCAL_DATA_NAME   <- "<local-data-csv-file>"
 
 # feature engineering
 LIFE_WINDOW       <- 10
@@ -115,9 +105,6 @@ analytics <- function(df, life.window, lag.align, lag.window) {
     filter(df.feature, !id %in% id.train) %>%
     ungroup() %>%
     select(-id)
-  
-  # df.feature.train$label <- as.factor(df.feature.train$label)
-  # df.feature.test$label <- as.factor(df.feature.test$label)
   
   # find the top 35 relevant features.
   names.train <- rxGetVarNames(data = df.feature.train)
