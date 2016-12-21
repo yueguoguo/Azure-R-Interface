@@ -26,3 +26,5 @@ maintenance use case is demonstrated here.
 3. Write the R script that to remotely executed on VM cluster. 
 4. Customize main.R script with specified VM cluster, remote R script, and compute context set up, and run it.
 
+## Use case introduction
+Use case in the demo, i.e., component health status recognition in predictive maintenance scenario, is briefed in the markdown file `predictiveMaintenanceUseCase.md`.
