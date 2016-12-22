@@ -1,11 +1,11 @@
 ########################################################################
 # Script to Deploy Azure Data Science Virtual Machines
 # ----------------------------------------------------------------------
-# AUTHORS:            Le Zhang, Graham Williams.
-# CONTRIBUTORS:       Le Zhang, Graham Williams, Alan Weaver.
-# DATE OF CREATION:   20160901
-# DEPARTMENT:         ADS Asia Pacific
-# COMPANY:            Microsoft
+# Authors:       Le Zhang, Graham Williams.
+# Contributors:  Le Zhang, Graham Williams, Alan Weaver.
+# Creation Date: 20160901
+# Department:    ADS Asia Pacific
+# Company:       Microsoft
 ########################################################################
 
 library(AzureSMR)
@@ -66,6 +66,8 @@ resource_groups <- azureListRG(ac) %>% select(name) %>% '[['(1) %T>% print()
 
 RG
 
+# Creating a resource group is instantaneous.
+
 if (! RG %in% resource_groups)
 {
   azureCreateResourceGroup(ac, resourceGroup=RG, location=LOC)
@@ -86,7 +88,9 @@ templ <- readLines(paste0(TEMPLATES, "template_ssh.json"))
 
 # Name the VMs.
                    
-vmnames <- paste0(rep(VM_BASE, VM_NUM), sprintf("%03d", 1:VM_NUM))
+vmnames <- paste0(rep(VM_BASE, VM_NUM), sprintf("%03d", 1:VM_NUM)) %T>% print()
+
+# Support function for manipulating the JSON data.
 
 source("jsonGen.R")
 
@@ -101,8 +105,12 @@ for(i in 1:VM_NUM)
                                         VM_USERNAME[i]),
                        public.key=VM_PUBKEY) %>% paste0(collapse="")
 
+  # To print this use jsonlite::prettify(temp_json)
+
   para_json <- gsub("default", vmnames[i], param) %>% paste0(collapse="")
-  
+
+  # jsonlite::prettify(para_json)
+
   dname <- paste0(VM_BASE, "dpl", as.character(i))
   
   azureDeployTemplate(azureActiveContext=ac,
