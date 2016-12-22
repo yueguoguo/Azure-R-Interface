@@ -80,7 +80,7 @@ templ <- readLines(paste0(TEMPLATES, "template_ssh.json"))
                    
 vmnames <- paste0(rep(VM_BASE, VM_NUM), sprintf("%03d", 1:VM_NUM))
 
-source("./scripts/jsonGen.R")
+source("jsonGen.R")
 
 for(i in 1:VM_NUM)
 {
