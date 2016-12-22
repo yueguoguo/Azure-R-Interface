@@ -44,7 +44,8 @@ TEMPLATES     <- paste0("https://raw.githubusercontent.com/",
 # Condition check.
 
 if (! length(VM_USERNAME) %in% c(1, VM_NUM))
-  error("We require 1 or", VM_NUM, "user names.")
+  stop("The AzureSMR Interface requires 1 or ", VM_NUM,
+       " (number of VMs) user names.")
   
 # ----------------------------------------------------------------------
 # Authentication
