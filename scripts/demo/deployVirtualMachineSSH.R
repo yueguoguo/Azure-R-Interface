@@ -74,7 +74,7 @@ azureListVM(sc, resourceGroup=RG)
 # Load the general template and parameter json files.
 
 param <- readLines(paste0(TEMPLATES, "parameters_ssh.json"))
-templ <- readLines(paste0(TEMPALTES, "template_ssh.json"))
+templ <- readLines(paste0(TEMPLATES, "template_ssh.json"))
 
 # Name the VMs.
                    
