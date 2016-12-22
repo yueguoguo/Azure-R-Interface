@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------
 # AUTHORS:            Zhang Le.
 # CONTRIBUTORS:       Zhang Le.
-# DATE OF CREATION:   10-28-2016
+# DATE OF CREATION:   20161028
 # DEPARTMENT:         IMML & ADS
 # COMPANY:            Microsoft
 # ----------------------------------------------------------------------

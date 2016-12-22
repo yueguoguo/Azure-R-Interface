@@ -36,6 +36,7 @@ if (file.exists(LOCAL_SETTINGS))
 
 TEMPLATES     <- paste0("https://raw.githubusercontent.com/",
                         "yueguoguo/azure_linuxdsvm/master/templates/")
+UTILS         <- "../utils"
 
 # Condition check.
 
@@ -88,7 +89,7 @@ templ <- readLines(paste0(TEMPLATES, "template_ssh.json"))
                    
 vmnames <- paste0(rep(VM_BASE, VM_NUM), sprintf("%03d", 1:VM_NUM))
 
-source("jsonGen.R")
+source(file.path(UTILS, "jsonGen.R"))
 
 for(i in 1:VM_NUM)
 {

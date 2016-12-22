@@ -33,7 +33,9 @@ jsonGen <- function(rj, dns.label, user.name, public.key)
   
   # Load the default template json from the remote github repo.
   
-  rj <- readLines(paste0(TEMPLATES, "template_ssh.json"))
+  if(missing(rj)) {
+    rj <- readLines(paste0(TEMPLATES, "template_ssh.json"))
+  }
   
   # Edit the DNS label.
                   
