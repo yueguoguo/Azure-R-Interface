@@ -102,7 +102,7 @@ for(i in 1:VM_NUM)
                       deplname=dname,
                       templateJSON=temp.json,
                       paramJSON=para.json, 
-                      mode="AYNC")
+                      mode="Async")
   
   # Error return codes and possible root-causes.
   #
