@@ -13,6 +13,8 @@ Demo script for firing up multiple VMs.
 Generate template json file for custom deployment.
 * `sshSetup.R`
 Demo script for setting up SSH for VM cluster.
+* `settings.R`
+Global settings - ID, key, and usernames used in the other scripts.
 * `rInterfaceObject.R`
 S4 class and method of rInterface which specify computing nodes and context.
 * `master_clusterParallelSweeping.R`
