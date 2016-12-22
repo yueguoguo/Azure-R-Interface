@@ -8,7 +8,7 @@
 # COMPANY:            Microsoft
 ########################################################################
 
-jsonGen <- function(rj, dns.label, user.name, public.key)
+jsonGen <- function(rj, dns_label, user_name, public_key)
 {
   # Description:
   #   This is a function to customize the template of VM deployment based
@@ -16,16 +16,16 @@ jsonGen <- function(rj, dns.label, user.name, public.key)
   #
   # Arguments:
   #   rj:                   readLines output of template.json from URL.
-  #   dns.label (string):   DNS name label for the public IP address.
-  #   public.key (string):  public key for authentication purpose.
-  #   user.name (string):   user name for the VM.
+  #   dns_label (string):   DNS name label for the public IP address.
+  #   public_key (string):  public key for authentication purpose.
+  #   user_name (string):   user name for the VM.
   
   # Global vars.
 
-  DNS_LABEL <- dns.label
-  USER_NAME <- user.name
-  PUB_KEY   <- public.key
-  KEY_PATH  <- paste0("/home/", user.name, "/.ssh/authorized_keys")
+  DNS_LABEL <- dns_label
+  USER_NAME <- user_name
+  PUB_KEY   <- public_key
+  KEY_PATH  <- paste0("/home/", user_name, "/.ssh/authorized_keys")
 
   TEMPLATES <- paste0("https://raw.githubusercontent.com/",
                       "yueguoguo/azure_linuxdsvm/master/templates/")
@@ -33,7 +33,9 @@ jsonGen <- function(rj, dns.label, user.name, public.key)
   
   # Load the default template json from the remote github repo.
   
-  rj <- readLines(paste0(TEMPLATES, "template_ssh.json"))
+  if(missing(rj)) {
+    rj <- readLines(paste0(TEMPLATES, "template_ssh.json"))
+  }
   
   # Edit the DNS label.
                   
@@ -50,7 +52,7 @@ jsonGen <- function(rj, dns.label, user.name, public.key)
   {
     stop("'dsvm_username' not found! Try to use a general template.")
   } else {
-    rj <- gsub("\"dsvm_username\"", paste0("\"", user.name, "\""), rj)
+    rj <- gsub("\"dsvm_username\"", paste0("\"", user_name, "\""), rj)
   }
   
   # Edit the public key path.

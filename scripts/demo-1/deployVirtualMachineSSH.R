@@ -36,6 +36,7 @@ if (file.exists(LOCAL_SETTINGS))
 
 TEMPLATES     <- paste0("https://raw.githubusercontent.com/",
                         "yueguoguo/azure_linuxdsvm/master/templates/")
+UTILS         <- "../utils"
 
 # Condition check.
 
@@ -92,18 +93,18 @@ vmnames <- paste0(rep(VM_BASE, VM_NUM), sprintf("%03d", 1:VM_NUM)) %T>% print()
 
 # Support function for manipulating the JSON data.
 
-source("jsonGen.R")
+source(file.path(UTILS, "jsonGen.R"))
 
 for(i in 1:VM_NUM)
 {
   # Upate the template and parameter json file.
   
   temp_json <- jsonGen(templ,
-                       dns.label=vmnames[i],
-                       user.name=ifelse(length(VM_USERNAME) == 1,
+                       dns_label=vmnames[i],
+                       user_name=ifelse(length(VM_USERNAME) == 1,
                                         VM_USERNAME, 
                                         VM_USERNAME[i]),
-                       public.key=VM_PUBKEY) %>% paste0(collapse="")
+                       public_key=VM_PUBKEY) %>% paste0(collapse="")
 
   # To print this use jsonlite::prettify(temp_json)
 

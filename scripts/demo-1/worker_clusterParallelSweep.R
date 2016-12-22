@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------
 # AUTHORS:            Zhang Le.
 # CONTRIBUTORS:       Zhang Le.
-# DATE OF CREATION:   10-28-2016
+# DATE OF CREATION:   20161028
 # DEPARTMENT:         IMML & ADS
 # COMPANY:            Microsoft
 # ----------------------------------------------------------------------
@@ -12,7 +12,7 @@
 # Worker Script Starts Here ... 
 # ---------------------------------------------------------------------------
 
-time.start <- Sys.time()
+time_start <- Sys.time()
 
 # Libraries used.
 
@@ -44,7 +44,7 @@ download.file(url=DATA_URL,
 df <- read.csv(file.path(LOCAL_DATA_DIR, LOCAL_DATA_NAME),
                header=T, sep=",", stringsAsFactors=F)
 
-analytics <- function(df, life.window, lag.align, lag.window)
+analytics <- function(df, life_window, lag_align, lag_window)
 {
   library(dplyr)
   library(magrittr)
@@ -74,63 +74,63 @@ analytics <- function(df, life.window, lag.align, lag.window)
     stop("Specify an algorithm to train the model.")
   }
   
-  df.group <- 
+  df_group <- 
     group_by(df, id) %>%
     summarise(count=n()) 
-  if(life.window > min(df.group$count)) stop("life.window too large.")
+  if(life_window > min(df_group$count)) stop("life_window too large.")
   
-  df.data <-
+  df_data <-
     select(df, -setting1, -setting2, -setting3) %>%
     group_by(id) %>%
     arrange(cycle) %>%
     mutate(label=ifelse(row_number() > round(n() / 2), 1, 0)) %>%
-    filter(row_number() <= life.window | row_number() > n() - life.window)
+    filter(row_number() <= life_window | row_number() > n() - life_window)
   
   # Label the data and aggregate the features.
   
-  fun.rollmean <- function(x) zoo::rollmean(x, lag.window, na.pad=TRUE, align=lag.align)
-  fun.rollsd <- function(x) zoo::rollapply(x, lag.window, FUN=sd, align=lag.align, fill=NA)
+  fun_rollmean <- function(x) zoo::rollmean(x, lag_window, na.pad=TRUE, align=lag_align)
+  fun_rollsd <- function(x) zoo::rollapply(x, lag_window, FUN=sd, align=lag_align, fill=NA)
   
   # Compute rolling mean and rolling standard deviation as new features.
   
-  names.raw <- rxGetVarNames(df.data)[3:23]
-  names.rollmean <- setNames(names.raw, paste0(names.raw, "_rollmean"))
-  names.rollsd <- setNames(names.raw, paste0(names.raw, "_rollsd"))
+  names_raw <- rxGetVarNames(df_data)[3:23]
+  names_rollmean <- setNames(names_raw, paste0(names_raw, "_rollmean"))
+  names_rollsd <- setNames(names_raw, paste0(names_raw, "_rollsd"))
   
-  df.feature <-
-    ungroup(df.data) %>%
+  df_feature <-
+    ungroup(df_data) %>%
     group_by(id, label) %>%
-    mutate_each_(funs(fun.rollmean), names.rollmean) %>%
-    mutate_each_(funs(fun.rollsd), names.rollsd) %>%
+    mutate_each_(funs(fun_rollmean), names_rollmean) %>%
+    mutate_each_(funs(fun_rollsd), names_rollsd) %>%
     select(-cycle)
   
   id.train <-
-    sample(df.group$id, round(nrow(df.group) * TRAIN_RATIO)) 
+    sample(df_group$id, round(nrow(df_group) * TRAIN_RATIO)) 
   
-  df.feature.train <-
-    filter(df.feature, id %in% id.train) %>%
+  df_feature_train <-
+    filter(df_feature, id %in% id.train) %>%
     ungroup() %>%
     select(-id)
   
-  df.feature.test <-
-    filter(df.feature, !id %in% id.train) %>%
+  df_feature_test <-
+    filter(df_feature, !id %in% id.train) %>%
     ungroup() %>%
     select(-id)
   
   # Find the top 35 relevant features.
   
-  names.train <- rxGetVarNames(data=df.feature.train)
-  formula.train <- as.formula(paste("~ ", paste(names.train, collapse="+")))
-  correlation.train <- rxCor(formula=formula.train,
-                             data=df.feature.train)
-  correlation.train <- correlation.train[, "label"]
-  correlation.abs <- abs(correlation.train)
-  correlation.abs <- correlation.abs[order(correlation.abs, decreasing=TRUE)]
-  correlation.abs <- correlation.abs[-1]
-  correlation.abs <- correlation.abs[1:TOP_FEATURES]
-  formula.train.top <-
+  names_train <- rxGetVarNames(data=df_feature_train)
+  formula_train <- as.formula(paste("~ ", paste(names_train, collapse="+")))
+  correlation_train <- rxCor(formula=formula_train,
+                             data=df_feature_train)
+  correlation_train <- correlation_train[, "label"]
+  correlation_abs <- abs(correlation_train)
+  correlation_abs <- correlation_abs[order(correlation_abs, decreasing=TRUE)]
+  correlation_abs <- correlation_abs[-1]
+  correlation_abs <- correlation_abs[1:TOP_FEATURES]
+  formula_train_top <-
     as.formula(paste(paste("label ~ "),
-                     paste(names(correlation.abs), collapse="+")))
+                     paste(names(correlation_abs), collapse="+")))
   
   # ----------------------------------------------------------------------------
   # Model Building
@@ -138,18 +138,18 @@ analytics <- function(df, life.window, lag.align, lag.window)
   
   if (ALGO == "decision forest")
   {
-    model <- rxDForest(formula=formula.train.top, 
+    model <- rxDForest(formula=formula_train_top, 
                        seed=10,
-                       data=df.feature.train, 
+                       data=df_feature_train, 
                        cp=CP, 
                        nTree=N_TREE, 
                        mTry=M_TRY,
                        verbose=2)
   } else if (ALGO == "boosted tree")
   {
-    model <- rxBTrees(formula=formula.train.top, 
+    model <- rxBTrees(formula=formula_train_top, 
                       seed=10,
-                      data=df.feature.train, 
+                      data=df_feature_train, 
                       learningRate=LEARN_RATE,
                       nTree=N_TREE, 
                       minSplit=MIN_SPLIT,
@@ -185,9 +185,9 @@ analytics <- function(df, life.window, lag.align, lag.window)
     return(metrics)
   }
   
-  df.test <- select(df.feature.test, select=-label)
+  df_test <- select(df_feature_test, select=-label)
   prediction <- rxPredict(modelObject=model,
-                          data=df.feature.test,
+                          data=df_feature_test,
                           type="prob",
                           overwrite=TRUE)
   
@@ -196,12 +196,12 @@ analytics <- function(df, life.window, lag.align, lag.window)
   prediction$pred.prob <- ifelse(prediction$pred.prob > threshold, 1, 0)
   prediction$pred.prob <- factor(prediction$pred.prob, levels=c(0, 1))
   
-  print(sprintf("LIFE_WINDOW is %d and LAG_WINDOW is %d", life.window, lag.window))
+  print(sprintf("LIFE_WINDOW is %d and LAG_WINDOW is %d", life_window, lag_window))
   
-  pred.metrics <- evaluate_model(observed=df.feature.test$label,
+  pred_metrics <- evaluate_model(observed=df_feature_test$label,
                                  predicted=prediction$pred.prob)
   
-  c(pred.metrics, life.window, lag.window)
+  c(pred_metrics, life_window, lag_window)
 }
 
 # Two experiments to sweep one parameter.
@@ -209,9 +209,9 @@ analytics <- function(df, life.window, lag.align, lag.window)
 
 sys1 <- system.time(rxExec(analytics,
                            df=df,
-                           life.window=rxElemArg(c(40, 50)),
-                           lag.align="left",
-                           lag.window=rxElemArg(c(3, 3))) %T>% print())
+                           life_window=rxElemArg(c(40, 50)),
+                           lag_align="left",
+                           lag_window=rxElemArg(c(3, 3))) %T>% print())
 print("Time cost of experiment on one parameter:") 
 sprintf("%f minutes", sys1[3] / 60)
 
@@ -219,15 +219,15 @@ sprintf("%f minutes", sys1[3] / 60)
 # (window=20, lag=3), (window=20, lag=5), (window=50, lag=3), and (window=50, lag=5)
 sys2 <- system.time(rxExec(analytics,
                            df=df,
-                           life.window=rxElemArg(list(40, 40, 50, 50)),
-                           lag.align="left",
-                           lag.window=rxElemArg(list(3, 5, 3, 5)),
+                           life_window=rxElemArg(list(40, 40, 50, 50)),
+                           lag_align="left",
+                           lag_window=rxElemArg(list(3, 5, 3, 5)),
                            timesToRun=4) %T>% print())
 print("Time cost of experiment on one parameter:") 
 sprintf("%f minutes", sys2[3] / 60)
 
-time.end <- Sys.time()
-print(time.end - time.start)
+time_end <- Sys.time()
+print(time_end - time_start)
 
 # ----------------------------------------------------------------------------
 # Clean Up

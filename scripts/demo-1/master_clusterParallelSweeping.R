@@ -9,52 +9,46 @@
 # ----------------------------------------------------------------------
 
 # libraries used.
-library(AzureSM)
-library(httr)
-library(plyr)
-library(jsonlite)
-library(XML)
+library(AzureSMR)
 library(magrittr)
 library(dplyr)
 library(stringr)
 
-source("./rInterfaceObject.R")
-
 # ----------------------------------------------------------------------
 # Get the info of available Azure resources.
 # ----------------------------------------------------------------------
-RG  <- "<resource-group>"
-TID <- "<tenant-id>"
-CID <- "<client-id>"
-KEY <- "<app-key>"
 
-sc <- CreateAzureContext()
-SetAzureContext(sc,
-                TID = TID,
-                CID = CID,
-                KEY = KEY)
-AzureAuthenticate(sc)
-DumpAzureContext(sc)
+LOCAL_SETTINGS <- paste0("settings_", Sys.info()['user'], ".R")
+if (file.exists(LOCAL_SETTINGS))
+{
+  source(LOCAL_SETTINGS)
+} else {
+  source("settings.R")
+}
 
-rg_list <- AzureListRG(sc) %T>%
+UTILS <- "../utils"
+
+# Authenticate the Azure account.
+
+sc <- createAzureContext(tenantID=TID, clientID=CID, authKey=KEY) %T>% print()
+
+rg_list <- azureListRG(sc) %T>%
   print()
-location <- as.character(rg_list %>% filter(Name == RG) %>% select(Location)) %T>%
+location <- as.character(rg_list %>% filter(name == RG) %>% select(location)) %T>%
   print()
-vm_list <- AzureListVM(AzureActiveContext = sc, ResourceGroup = RG) %T>%
+vm_list <- azureListVM(azureActiveContext = sc, resourceGroup = RG) %T>%
   print()
-vm_names <- as.character(vm_list$Name)
+vm_names <- as.character(vm_list$name)
 
 # check the status of VMs.
 for (vm in vm_names) {
-  vm.status <- AzureVMStatus(AzureActiveContext = sc, ResourceGroup = RG, VMName = vm)
-  print(str_c(vm, vm.status, sep = ", "))
+  vm.status <- azureVMStatus(azureActiveContext = sc, resourceGroup = RG, vmName = vm)
+  print(paste0(vm, vm.status, sep = ", "))
 }
 
 # switch on the VMs in the resource group.
 for (vm in vm_names) {
-  # skip the error in the AzureStartVM function.
-  outputs <- try(AzureStartVM(AzureActiveContext = sc, ResourceGroup = RG, VMName = vm))
-  if (inherits(outputs, "try_error")) continue
+  azureStartVM(azureActiveContext = sc, resourceGroup = RG, vmName = vm)
 }
 
 vm.dns.list <- paste(vm_names, ".", location, ".cloudapp.azure.com", sep = "")
@@ -70,6 +64,8 @@ MASTER_URL      <- vm.dns.list[index]
 SLAVES_URL      <- vm.dns.list[-index]
 
 # Create a new interface.
+source(file.path(UTILS, "rInterfaceObject.R"))
+
 interface <- new("rInterface")
 
 # Set the interface.
@@ -89,7 +85,7 @@ interface <- riConfig(object = interface,
                       context = "clusterParallel")
 
 # Create a new worker script.
-script_path <- "./worker_scripts"
+script_path <- "."
 script_title <- "worker_clusterParallelSweep.R"
 if (!file.exists(file.path(script_path, script_title))) {
   riNewScript(path = script_path,
@@ -113,7 +109,5 @@ result <- riExecute(object = interface,
 # Clean up and stop the VMs.
 # ----------------------------------------------------------------------
 for (vm in vm_names) {
-  # skip the error in the AzureStartVM function.
-  outputs <- try(AzureStopVM(AzureActiveContext = sc, ResourceGroup = RG, VMName = vm))
-  if (inherits(outputs, "try_error")) continue
+  azureStopVM(azureActiveContext = sc, resourceGroup = RG, vmName = vm)
 }
