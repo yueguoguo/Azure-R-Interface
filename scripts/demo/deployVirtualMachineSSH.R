@@ -40,9 +40,11 @@ if (file.exists(LOCAL_SETTINGS))
 
 TEMPLATES     <- paste0("https://raw.githubusercontent.com/",
                         "yueguoguo/azure_linuxdsvm/master/templates/")
-  
-if (length(VM_USERNAME) != VM_NUM)
-  error("Assign correct number of user names to VMs.")
+
+# Condition check.
+
+if (! length(VM_USERNAME) %in% c(1, VM_NUM))
+  error("We require 1 or", VM_NUM, "user names.")
   
 # ----------------------------------------------------------------------
 # Authentication
