@@ -54,6 +54,15 @@ if (! length(VM_USERNAME) %in% c(1, VM_NUM))
 sc <- createAzureContext(tenantID=TID, clientID=CID, authKey=KEY) %T>% print()
 dumpAzureContext(sc) # XXXX FAILS
 
+# We can create a new resource group for this run and then delete all
+# resources once we are finished by deleting this resource
+# group. Check first if it already exists.
+
+resource_groups <- azureListRG(sc) %>% select(name) %>% '[['(1) %T>% print()
+
+if (! RG %in% resource_groups)
+  azureCreateResourceGroup(azureActiveContext=sc, resourceGroup=RG, location=LOC)
+
 # List resource groups and VMs available under the subscription.
 
 rg_list  <- azureListRG(sc)
@@ -126,4 +135,3 @@ for (vm in vmnames)
 azureVMStatus(azureActiveContext=sc, resourceGroup=RG, vmName=vmnames[1])
 azureStopVM(azureActiveContext=sc, resourceGroup=RG, vmName=vmnames[1])
 azureStartVM(azureActiveContext=sc, resourceGroup=RG, vmName=vmnames[1])
-
