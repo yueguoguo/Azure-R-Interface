@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------
 # AUTHORS:            Le Zhang, Graham Williams.
 # CONTRIBUTORS:       Le Zhang, Graham Williams, Alan Weaver.
-# DATE OF CREATION:   09-01-2016
+# DATE OF CREATION:   20160901
 # DEPARTMENT:         IMML & ADS Asia
 # COMPANY:            Microsoft
 ########################################################################
@@ -25,11 +25,7 @@ VM_NUM        <- 5                               # Number of virtual machines.
 VM_BASE       <- str_c("vm", sample(letters, 1)) # Prefix of virtual machines. 
 VM_USERNAME   <- Sys.info()['user']              # User names for virtual machines.
 
-VM_PUBKEY     <- # OpenSSH compatible public key.
-RG            <- # Resource group. NOTE: should be manually created.
-TID           <- # Tenant ID. NOTE: obtained in creating app in Active Directory.
-CID           <- # Client ID. NOTE: obtained in creating app in Active Directory.
-KEY           <- # User key. NOTE: obtained in creating app in Active Directory.
+source("settings.R")
 
 TEMPLATES     <- paste0("https://raw.githubusercontent.com/",
                         "yueguoguo/azure_linuxdsvm/master/templates/")
