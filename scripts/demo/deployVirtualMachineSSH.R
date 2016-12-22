@@ -25,7 +25,13 @@ VM_NUM      <- 5                               # Number of virtual machines.
 VM_BASE     <- str_c("vm", sample(letters, 1)) # Prefix of virtual machines. 
 VM_USERNAME <- Sys.info()['user']              # User names for virtual machines.
 
-source("settings.R")
+LOCAL_SETTINGS <- paste0("settings_", Sys.info()['user'], ".R")
+if (file.exists(LOCAL_SETTINGS))
+{
+  source(LOCAL_SETTINGS)
+} else {
+  source("settings.R")
+}
 # VM_PUBKEY <- # OpenSSH compatible public key.
 # RG        <- # Resource group. NOTE: should be manually created.
 # TID       <- # Tenant ID. NOTE: obtained in creating app in Active Directory.
