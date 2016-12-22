@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------
 # AUTHORS:            Zhang Le, Graham Williams.
 # CONTRIBUTORS:       Zhang Le, Graham Williams.
-# DATE OF CREATION:   09-26-2016
+# DATE OF CREATION:   20160926
 # DEPARTMENT:         IMML & ADS Asia
 # COMPANY:            Microsoft
 ########################################################################
