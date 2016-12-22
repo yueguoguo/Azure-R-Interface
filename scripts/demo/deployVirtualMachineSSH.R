@@ -90,7 +90,7 @@ for(i in 1:VM_NUM)
                        dns.label=vmnames[i],
                        user.name=ifelse(length(VM_USERNAME) == 1,
                                         VM_USERNAME, 
-                                        VM_USERNAME[i])
+                                        VM_USERNAME[i]),
                        public.key=VM_PUBKEY) %>% str_c(collapse="")
 
   para.json <- gsub("default", vmnames[i], param) %>% str_c(collapse="")
@@ -98,18 +98,28 @@ for(i in 1:VM_NUM)
   dname <- paste0(VM_BASE, "dpl", as.character(i))
   
   azureDeployTemplate(azureActiveContext=sc,
-                      ResourceGroup=RG,
-                      DeplName=dname,
-                      TemplateJSON=temp.json,
-                      ParamJSON=para.json, 
-                      Mode="AYNC")
+                      resourceGroup=RG,
+                      deplname=dname,
+                      templateJSON=temp.json,
+                      paramJSON=para.json, 
+                      mode="AYNC")
   
   # Error return codes and possible root-causes.
-  # 200/201/202       Successful. VM will be deployed and there is no error.
-  # 403               VM will not be deployed and there are some errors.
-  #                   - Values in the template are not matched with those in the parameter.
-  #                   - Unrecognized values in the template or parameter files.
+  #
+  # 200/201/202 Successful. VM will be deployed and there is no error.
+  #
+  # 403 VM will not be deployed as there are errors:
+  #
+  #     - Values in the template are not matched with those in the
+  #       parameter.
+  #
+  #     - Unrecognized values in the template or parameter files.
 }
+
+# Check on the status.
+
+for (vm in vmnames)
+  azureVMStatus(azureActiveContext=sc, resourceGroup=RG, vmName=vm)
 
 # Example to stop and start a VM.
 
