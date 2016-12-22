@@ -3,8 +3,8 @@
 # ----------------------------------------------------------------------
 # AUTHORS:            Zhang Le
 # CONTRIBUTORS:       Zhang Le
-# DATE OF CREATION:   11-02-2016
-# DEPARTMENT:         IMML & ADS Asia
+# DATE OF CREATION:   20161102
+# DEPARTMENT:         ADS Asia Pacific
 # COMPANY:            Microsoft
 # ----------------------------------------------------------------------
 
