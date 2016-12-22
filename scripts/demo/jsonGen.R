@@ -37,7 +37,7 @@ jsonGen <- function(rj, dns.label, user.name, public.key)
   
   # Edit the DNS label.
                   
-  if(all(str_detect(rj, "\"dsvm_dns_label\"") == FALSE))
+  if(all(stringr::str_detect(rj, "\"dsvm_dns_label\"") == FALSE))
   {
     stop("'dsvm_dns_label' not found! Try to use a general template.")
   } else {
@@ -46,7 +46,7 @@ jsonGen <- function(rj, dns.label, user.name, public.key)
   
   # Edit the user name.
   
-  if(all(str_detect(rj, "\"dsvm_username\"") == FALSE))
+  if(all(stringr::str_detect(rj, "\"dsvm_username\"") == FALSE))
   {
     stop("'dsvm_username' not found! Try to use a general template.")
   } else {
@@ -55,7 +55,7 @@ jsonGen <- function(rj, dns.label, user.name, public.key)
   
   # Edit the public key path.
   
-  if(all(str_detect(rj, "\"dsvm_key_path\"") == FALSE))
+  if(all(stringr::str_detect(rj, "\"dsvm_key_path\"") == FALSE))
   {
     stop("'dsvm_key_path' not found! Try to use a general template.")
   } else {
@@ -64,7 +64,7 @@ jsonGen <- function(rj, dns.label, user.name, public.key)
   
   # Edit the public key.
   
-  if(all(str_detect(rj, "\"dsvm_public_key\"") == FALSE))
+  if(all(stringr::str_detect(rj, "\"dsvm_public_key\"") == FALSE))
   {
     stop("'dsvm_public_key' not found! Try to use a general template.")
   } else {
