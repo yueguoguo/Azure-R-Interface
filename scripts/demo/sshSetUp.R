@@ -46,17 +46,16 @@ ifelse(identical(.Platform$OS.type, "windows"),
 # Authenticate Azure account.
 
 sc <- createAzureContext(tenantID=TID, clientID=CID, authKey=KEY)
-# DumpAzureContext(sc)
 
 # List resource groups and VMs available under the subscription.
 
-rg.list <- AzureListRG(sc)
-location <- as.character(rg.list %>% filter(Name == RG) %>% select(Location))
+rg_list <- AzureListRG(sc)
+location <- as.character(rg_list %>% filter(Name == RG) %>% select(Location))
 
 vmnames <- paste0(rep(VM_BASE, VM_NUM), sprintf("%03d", 1:VM_NUM))
-dns.name.list <- paste0(vmnames, location, ".cloudapp.azure.com")
+dns_name_list <- paste0(vmnames, location, ".cloudapp.azure.com")
 
-for (vm in dns.name.list)
+for (vm in dns_name_list)
 {
   # Distribute the key pair to all nodes.
   

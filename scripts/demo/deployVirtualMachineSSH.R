@@ -96,11 +96,11 @@ for(i in 1:VM_NUM)
   # Upate the template and parameter json file.
   
   temp_json <- jsonGen(templ,
-                       dns.label=vmnames[i],
-                       user.name=ifelse(length(VM_USERNAME) == 1,
+                       dns_label=vmnames[i],
+                       user_name=ifelse(length(VM_USERNAME) == 1,
                                         VM_USERNAME, 
                                         VM_USERNAME[i]),
-                       public.key=VM_PUBKEY) %>% paste0(collapse="")
+                       public_key=VM_PUBKEY) %>% paste0(collapse="")
 
   para_json <- gsub("default", vmnames[i], param) %>% paste0(collapse="")
   
