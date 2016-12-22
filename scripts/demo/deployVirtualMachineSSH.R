@@ -51,26 +51,21 @@ if (! length(VM_USERNAME) %in% c(1, VM_NUM))
 # Authentication
 # ----------------------------------------------------------------------
 
-sc <- createAzureContext(tenantID=TID, clientID=CID, authKey=KEY)
-# dumpAzureContext(sc)
+sc <- createAzureContext(tenantID=TID, clientID=CID, authKey=KEY) %T>% print()
+dumpAzureContext(sc) # XXXX FAILS
 
 # List resource groups and VMs available under the subscription.
 
-rg.list  <- AzureListRG(sc)
-location <- as.character(rg.list %>% filter(Name == RG) %>% select(Location))
+rg_list  <- azureListRG(sc)
+location <- as.character(rg_list %>% filter(name == RG) %>% select(location))
 
-# List all the subscriptions.
+# list all the subscriptions.
 
-AzureListSubscriptions(sc)
+azureListSubscriptions(sc)
 
 # List VMs in the resource group.
 
-AzureListVM(sc, ResourceGroup=RG)
-
-# Stop and start a VM.
-
-AzureStopVM(AzureActiveContext=sc, ResourceGroup=RG, VMName=)
-AzureStartVM(AzureActiveContext=sc, ResourceGroup=RG, VMName=)
+azureListVM(sc, resourceGroup=RG)
 
 # ----------------------------------------------------------------------
 # Provision Multiple DSVM With Custom Settings
@@ -102,7 +97,7 @@ for(i in 1:VM_NUM)
   
   dname <- paste0(VM_BASE, "dpl", as.character(i))
   
-  AzureDeployTemplate(AzureActiveContext=sc,
+  azureDeployTemplate(azureActiveContext=sc,
                       ResourceGroup=RG,
                       DeplName=dname,
                       TemplateJSON=temp.json,
@@ -115,3 +110,10 @@ for(i in 1:VM_NUM)
   #                   - Values in the template are not matched with those in the parameter.
   #                   - Unrecognized values in the template or parameter files.
 }
+
+# Example to stop and start a VM.
+
+azureVMStatus(azureActiveContext=sc, resourceGroup=RG, vmName=vmnames[1])
+azureStopVM(azureActiveContext=sc, resourceGroup=RG, vmName=vmnames[1])
+azureStartVM(azureActiveContext=sc, resourceGroup=RG, vmName=vmnames[1])
+
