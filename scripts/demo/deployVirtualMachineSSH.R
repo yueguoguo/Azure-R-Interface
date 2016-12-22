@@ -8,7 +8,7 @@
 # COMPANY:            Microsoft
 ########################################################################
 
-library(AzureSM)
+library(AzureSMR)
 library(httr)
 library(plyr)
 library(jsonlite)
@@ -21,9 +21,10 @@ library(stringr) # XXXX WHY str_c rather than paste?
 # Global Variables
 # ----------------------------------------------------------------------
 
-VM_NUM        <- # Number of virtual machines. 
-VM_BASE       <- # Prefix of the virtual machines. 
-VM_USERNAME   <- # User names for the virtual machines.
+VM_NUM        <- 5                               # Number of virtual machines. 
+VM_BASE       <- str_c("vm", sample(letters, 1)) # Prefix of virtual machines. 
+VM_USERNAME   <- Sys.info()['user']              # User names for virtual machines.
+
 VM_PUBKEY     <- # OpenSSH compatible public key.
 RG            <- # Resource group. NOTE: should be manually created.
 TID           <- # Tenant ID. NOTE: obtained in creating app in Active Directory.
@@ -33,7 +34,8 @@ KEY           <- # User key. NOTE: obtained in creating app in Active Directory.
 TEMPLATES     <- paste0("https://raw.githubusercontent.com/",
                         "yueguoguo/azure_linuxdsvm/master/templates/")
   
-if (length(VM_USERNAME) != VM_NUM) error("Assign correct number of user names to VMs.")
+if (length(VM_USERNAME) != VM_NUM)
+  error("Assign correct number of user names to VMs.")
   
 # ----------------------------------------------------------------------
 # Authentication
