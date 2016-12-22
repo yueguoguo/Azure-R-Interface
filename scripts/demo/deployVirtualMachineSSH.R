@@ -111,18 +111,18 @@ for(i in 1:VM_NUM)
                       templateJSON=temp_json,
                       paramJSON=para_json, 
                       mode="Async")
-  
-  # Error return codes and possible root-causes.
-  #
-  # 200/201/202 Successful. VM will be deployed and there is no error.
-  #
-  # 403 VM will not be deployed as there are errors:
-  #
-  #     - Values in the template are not matched with those in the
-  #       parameter.
-  #
-  #     - Unrecognized values in the template or parameter files.
 }
+
+# Error return codes from azureDeployTemplate and possible root-causes.
+#
+# 200/201/202 Successful. VM will be deployed and there is no error.
+#
+# 403 VM will not be deployed as there are errors:
+#
+#     - Values in the template are not matched with those in the
+#       parameter.
+#
+#     - Unrecognized values in the template or parameter files.
 
 # Check on the status.
 
@@ -134,3 +134,7 @@ for (i in seq_along(vmnames))
 azureVMStatus(azureActiveContext=ac, resourceGroup=RG, vmName=vmnames[1])
 azureStopVM(azureActiveContext=ac, resourceGroup=RG, vmName=vmnames[1])
 azureStartVM(azureActiveContext=ac, resourceGroup=RG, vmName=vmnames[1])
+
+# Once we have finished with the VMs we delete the resource group.
+
+azureDeleteResourceGroup(ac, resourceGroup=RG)
