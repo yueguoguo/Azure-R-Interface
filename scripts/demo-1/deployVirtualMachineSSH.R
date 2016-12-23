@@ -11,6 +11,7 @@
 library(AzureSMR)
 library(magrittr)
 library(dplyr)
+library(stringr)
 
 # ----------------------------------------------------------------------
 # Global Variables
