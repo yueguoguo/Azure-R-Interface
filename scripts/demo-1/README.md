@@ -2,6 +2,8 @@
 This demonstration presents how to form a high performance cluster on top of Azure Data Science Virtual Machines, and submit scalable analytical jobs to the cluster with the help of an **R Interface**. A `AzureSMR` package is used to harness Azure instances such as virtual machines all within R session - no bother from GUI interaction and PowerShell scripting. A use case on predictive maintenance is illustrated. 
 
 ## Prerequisites
+* R >= 3.3
+* `AzureSMR` package.
 * Azure account subscription.
 * Application in Azure Active Directory with allowed access to the resource group.
 * SSH toolkit.

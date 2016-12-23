@@ -12,7 +12,6 @@
 library(AzureSMR)
 library(magrittr)
 library(dplyr)
-library(stringr)
 
 # ----------------------------------------------------------------------
 # Get the info of available Azure resources.
@@ -25,8 +24,6 @@ if (file.exists(LOCAL_SETTINGS))
 } else {
   source("settings.R")
 }
-
-UTILS <- "../utils"
 
 # Authenticate the Azure account.
 
@@ -42,8 +39,8 @@ vm_names <- as.character(vm_list$name)
 
 # check the status of VMs.
 for (vm in vm_names) {
-  vm.status <- azureVMStatus(azureActiveContext = sc, resourceGroup = RG, vmName = vm)
-  print(paste0(vm, vm.status, sep = ", "))
+  vm_status <- azureVMStatus(azureActiveContext = sc, resourceGroup = RG, vmName = vm)
+  print(paste0(vm, vm_status, sep = ", "))
 }
 
 # switch on the VMs in the resource group.
@@ -51,20 +48,20 @@ for (vm in vm_names) {
   azureStartVM(azureActiveContext = sc, resourceGroup = RG, vmName = vm)
 }
 
-vm.dns.list <- paste(vm_names, ".", location, ".cloudapp.azure.com", sep = "")
+vm_dns_list <- paste(vm_names, ".", location, ".cloudapp.azure.com", sep = "")
 
 # ----------------------------------------------------------------------
 # Set up the interface and fire the work.
 # ----------------------------------------------------------------------
 # Select one to be the master node while some others to be the slaves.
-index <- sample(x = 1:length(vm.dns.list), 1)
+index <- sample(x = 1:length(vm_dns_list), 1)
 MACHINES        <- vm_names
-MACHINES_URL    <- vm.dns.list
-MASTER_URL      <- vm.dns.list[index]
-SLAVES_URL      <- vm.dns.list[-index]
+MACHINES_URL    <- vm_dns_list
+MASTER_URL      <- vm_dns_list[index]
+SLAVES_URL      <- vm_dns_list[-index]
 
 # Create a new interface.
-source(file.path(UTILS, "rInterfaceObject.R"))
+source("rInterfaceObject.R")
 
 interface <- new("rInterface")
 
