@@ -1,0 +1,93 @@
+---
+title: "cognitiveR Instructions"
+author: "Zhang Le, Data Scientist, Microsoft"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+### Introduction
+
+Use `cognitiveR` for text analytics such as translation, sentiment analysis, topic detection, etc.
+
+### Preliminaries
+
+All of the functionsin `cognitiveR` call APIs of Microsoft Cognitive Services. Subscription of Microsoft Azure is therefore required to obtain the key corresponding to a service. More details can be found at the [website](https://www.microsoft.com/cognitive-services/en-us/apis).
+
+### Text analytics
+
+Text analytics are intensively applied in many application scenarios. To name a few, document classification, sentiment analysis of social media posts, and topic detection in news articles. 
+
+#### Translation
+`cognitiveTranslation` translates text in source language to target language. It also accounts for convention differences for the same language but different locales. For example, **big data** is translated into **大数据** for Simplified Chinese but **大資料** for Traditional Chinese.
+```{r, eval=FALSE, include=FALSE}
+text <- "人工智能"
+
+translated_text1 <- cognitiveTranslation(text, lanTo="en", apiKey="a valid key")
+translated_text1
+
+text <- "人工智能 big data"
+translated_text2 <- cognitiveTranslation(text, lanFrom="en", lanTo="zh-CHS", apiKey="a valid key")
+translated_text2
+
+translated_text3 <- cognitiveTranslation(text, lanFrom="en", lanTo="zh-CHT", apiKey="a valid key")
+translated_text3
+```
+
+#### Sentiment analysis
+`cognitiveSentiAnalysis` produces sentiment score, ranging from 0 (negative) to 1 (positive), for the given text.
+```{r, eval=FALSE, include=FALSE}
+senti_score <- cognitiveSentiAnalysis("I love you", apiKey="a valid key string")
+senti_score
+
+text <- c("I love you", "I hate you", "This is love")
+senti_scores <- cognitiveSentiAnalysis(text, apiKey="a valid key string")
+senti_scores
+```
+
+#### Language detection
+`cognitiveLangDetect` detects the language of input text. Number of languages for detection can be specified (default is 1).
+```{r, eval=FALSE, include=FALSE}
+lang1 <- cognitiveLangDetect("English", apiKey="a valid key string")
+lang1
+
+langs2 <- cognitiveLangDetect(c("English", "中文"), langNum=2, apiKey="a valid key string")
+langs2
+```
+
+#### Topic detection
+`cognitiveTopicDetect` extracts topics of given text documents. Note the minimum number of documents for topic detection is 100. The function returns error if document size is smaller. BBC news articles of 5 topics, each of which contains 50 articles, are attached for experiments.
+```{r, eval=FALSE, include=FALSE}
+data(text_bbc)
+
+topics_detected <- cognitiveTopicDetect(text_bbc, apiKey="a valid key")
+topics_detected
+```
+
+#### Key phrase detection
+`cognitiveKeyPhrases` extracts key phrases from given text.
+```{r, eval=FALSE, include=FALSE}
+key_phrases <- cognitiveKeyPhrases("Artificial Intelligence is regarded as one of the disruptive technologies in the 21st century", apiKey="a valid key string")
+key_phrases
+```
+
+#### Spelling check
+`cognitiveSpellingCheck` checks spelling of given text and return the detected wrongly spelt words (associated with confidence as probability) as well as suggested ones for replacement.
+```{r, eval=FALSE, include=FALSE}
+text <- c("today is holliday", "hapyp new yaer")
+
+text_detected <- cognitiveSpellingCheck(text, apiKey="a valid key")
+text_detected
+```
+
+#### Linguistic Analytics
+`cognitiveLinguiAnalysis` returns tokenized results with offset and part-of-speech information of given text. 
+```{r, eval=FALSE, include=FALSE}
+text <- "What did you say?!? I didn't hear about the director's new proposal. It's important to Mr. and Mrs. Smith"
+
+tokens <- cognitiveLinguiAnalysis(text, apiKey="a valid key")
+tokens
+```
