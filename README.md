@@ -10,11 +10,13 @@ This repository collects demonstration samples that employ Microsoft Azure insta
 
 * Use of `AzureSMR` package for operating Azure instances within R session.
 * Scalable analytics on DSVM cluster under Microsoft R Server computing context.
+* A predictive maintenance use case is demonstrated.
 
 ### demo 2 - Sentiment analysis with Microsoft Cognitive Services.
 
 * Apply Microsoft Cognitive Services with `cognitiveR` package for sentiment analysis on text data.
 * Experimental analytics on DSVM with R interface object.
+* An employee churn prediction use case is presented.
 
 ### demo 3 - Coming soon.
 * ...
