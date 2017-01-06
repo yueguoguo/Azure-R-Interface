@@ -61,7 +61,7 @@ MASTER_URL      <- vm_dns_list[index]
 SLAVES_URL      <- vm_dns_list[-index]
 
 # Create a new interface.
-source("rInterfaceObject.R")
+source("../../utils/interfaceObject/rInterfaceObject.R")
 
 interface <- new("rInterface")
 
@@ -83,7 +83,7 @@ interface <- riConfig(object = interface,
 
 # Create a new worker script.
 script_path <- "."
-script_title <- "worker_clusterParallelSweep.R"
+script_title <- "worker.R"
 if (!file.exists(file.path(script_path, script_title))) {
   riNewScript(path = script_path,
                title = script_title)

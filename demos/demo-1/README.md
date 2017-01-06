@@ -1,4 +1,4 @@
-# INSTRUCTIONS
+# Introduction 
 This demonstration presents how to form a high performance cluster on top of Azure Linux Data Science Virtual Machines, and submit scalable analytical jobs to the cluster with the help of an **R Interface**. A `AzureSMR` package is used to harness Azure instances such as virtual machines all within R session - no bother from GUI interaction and PowerShell scripting. A use case on predictive maintenance is illustrated. 
 
 ## Prerequisites
@@ -9,28 +9,20 @@ This demonstration presents how to form a high performance cluster on top of Azu
 * SSH toolkit.
 
 ## Description of the scripts in folder.
-* `deployVirtualmachineSSH.R`
-Demo script for firing up multiple VMs.
-* `jsonGen.R`
-Generate template json file for custom deployment.
-* `sshSetup.R`
-Demo script for setting up SSH for VM cluster.
 * `settings.R`
 Global settings - ID, key, and usernames used in the other scripts.
-* `rInterfaceObject.R`
+* `utils/rInterfaceObject.R`
 S4 class and method of rInterface which specify computing nodes and context.
-* `master_clusterParallelSweeping.R`
+* `master.R`
 Master script that specifies the experiment environment such as header
 node, compute context, etc., for the analytical jobs. 
-* `worker_clusterParallelSweeping.R`
+* `worker.R`
 The worker script contains the actual analytics. A predictive
 maintenance use case is demonstrated here.
 
 ## Instructions on demo
-1. Edit `deployVirtualMachineSSH.R` with account confidential and VM setups, and run it for firing up VMs.
-2. Run `sshSetUp.R` to set up the SSH environment for the VM cluster. 
-3. Write the R script that to remotely executed on VM cluster. 
-4. Customize main.R script with specified VM cluster, remote R script, and compute context set up, and run it.
+1. Write the R script that to remotely executed on VM cluster. 
+2. Customize master.R script with specified VM cluster, remote R script, and compute context set up, and run it.
 
 ## Use case - predictive maintenance
 Use case in the demo is a common problem in predictive maintenance scenario, which is to diagnose *health status of a machine given the historical observations on the sensors incorporated in the machine*.
