@@ -16,7 +16,13 @@ cognitiveSpellingCheck(text, apiKey, mode = "Proof", mkt = "en-us")
 \value{
 A data frame containing the detected token, its offset, type, and suggestions.
 }
-\note{
+\examples{
+text <- c("today is holliday", "hapyp new yaer")
+
+text_detected <- cognitiveSpellingCheck(text, apiKey="a valid key")
+text_detected
+}
+\references{
 See \url{https://dev.cognitive.microsoft.com/docs/services/56e73033cf5ff80c2008c679/operations/56e73036cf5ff81048ee6727} for more information about Spell Check API.
 }
 

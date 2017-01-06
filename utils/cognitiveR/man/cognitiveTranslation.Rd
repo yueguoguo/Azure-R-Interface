@@ -4,7 +4,7 @@
 \alias{cognitiveTranslation}
 \title{Translation.}
 \usage{
-cognitiveTranslation(text, lanTo, apiKey)
+cognitiveTranslation(text, lanTo, apiKey, lanFrom = "en")
 }
 \arguments{
 \item{text}{text to be analyzed.}
@@ -13,12 +13,25 @@ cognitiveTranslation(text, lanTo, apiKey)
 
 \item{apiKey}{API key}
 
-\item{lan_from}{source language.}
+\item{lanFrom}{source language.}
 }
 \value{
 A data frame containing the translated text in the target language.
 }
-\note{
-See \url{http://docs.microsofttranslator.com/text-translate.html#!/default/post_TranslateArray} for more information about Translation API.
+\examples{
+text <- "人工智能"
+
+translated_text1 <- cognitiveTranslation(text, lanTo="en", apiKey="a valid key")
+translated_text1
+
+text <- "人工智能 big data"
+translated_text2 <- cognitiveTranslation(text, lanFrom="en", lanTo="zh-CHS", apiKey="a valid key")
+translated_text2
+
+translated_text3 <- cognitiveTranslation(text, lanFrom="en", lanTo="zh-CHT", apiKey="a valid key")
+translated_text3
+}
+\references{
+See \url{http://docs.microsofttranslator.com/text-translate.html#!/default/post_TranslateArray} for more information about Translation API. Get lists of languages (and codes) supported at \url{https://msdn.microsoft.com/en-us/library/hh456380.aspx}.
 }
 

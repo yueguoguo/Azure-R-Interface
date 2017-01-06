@@ -14,7 +14,15 @@ cognitiveSentiAnalysis(text, apiKey)
 \value{
 Response from sentiment analysis API, including score, text id, and errors if there are.
 }
-\note{
+\examples{
+senti_score <- cognitiveSentiAnalysis("I love you", apiKey="a valid key string")
+senti_score
+
+text <- c("I love you", "I hate you", "This is love")
+senti_scores <- cognitiveSentiAnalysis(text, apiKey="a valid key string")
+senti_scores
+}
+\references{
 See \url{https://westus.dev.cognitive.microsoft.com/docs/services/TextAnalytics.V2.0} for more information about Text Analytics on Microsoft Cognitive Analysis.
 }
 

@@ -4,7 +4,7 @@
 \alias{stopWithError}
 \title{Error handling.}
 \usage{
-stopWithError(r)
+stopWithError(response)
 }
 \arguments{
 \item{r}{response returned from a http request.}
