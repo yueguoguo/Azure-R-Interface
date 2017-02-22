@@ -1,0 +1,21 @@
+Package: languageR
+Title: Microsoft Cognitive Service for natural language processing application.
+Version: 0.1.0
+Authors@R: person("Le", "Zhang", email = "zhle@microsoft.com", role = c("aut", "cre"))
+Description: The package offers methods to call APIs of Microsoft language
+    Services for building natural language processing applications.
+Depends:
+    R (>= 3.3.1)
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr (>= 0.5.0),
+    httr (>= 1.2.1),
+    jsonlite (>= 1.1),
+    magrittr (>= 1.5)
+RoxygenNote: 5.0.1
+Suggests: knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
