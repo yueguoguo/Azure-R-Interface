@@ -1,4 +1,4 @@
-R Accelerator for Employee Attrition Prediction
+Employee Attrition Prediction with R Accelerator
 ========================================================
 author: Le Zhang, Data Scientist at Microsoft
 date: `r Sys.Date()`
@@ -105,11 +105,8 @@ mp
 Data science and machine learning
 ========================================================
 
-- Data science
-- Machine learning
-    - Predictive maintenance.
-    - Demand forecasting.
-    - Churn prediction.
+- Data science & Machine learning
+- A review on iris.
 
 ```{r, echo=FALSE, fig.height=8, fig.width=10}
 
@@ -120,6 +117,13 @@ ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
 
 rattle::fancyRpartPlot(model_iris, main="Decision tree model built on iris data.")
 ```
+
+- Use cases: predictive maintenance, churn prediction, etc.
+
+General work flow
+========================================================
+
+Microsoft Team Data Science Process
 
 Use case - employee attrition prediction
 ========================================================

@@ -1,4 +1,4 @@
-R Accelerator for Employee Attrition Prediction
+Employee Attrition Prediction with R Accelerator
 ========================================================
 author: Le Zhang, Data Scientist at Microsoft
 date: 2017-03-01
@@ -27,13 +27,17 @@ Introduction
 Data science and machine learning
 ========================================================
 
-- Data science
-- Machine learning
-    - Predictive maintenance.
-    - Demand forecasting.
-    - Churn prediction.
+- Data science & Machine learning
+- A review on iris.
 
 ![plot of chunk unnamed-chunk-3](demo-figure/unnamed-chunk-3-1.png)![plot of chunk unnamed-chunk-3](demo-figure/unnamed-chunk-3-2.png)
+
+- Use cases: predictive maintenance, churn prediction, etc.
+
+General work flow
+========================================================
+
+Microsoft Team Data Science Process
 
 Use case - employee attrition prediction
 ========================================================
@@ -12875,25 +12879,25 @@ Confusion Matrix and Statistics
 
           Reference
 Prediction No Yes
-       No  88   9
-       Yes  2  51
+       No  86  13
+       Yes  4  47
                                           
-               Accuracy : 0.9267          
-                 95% CI : (0.8726, 0.9628)
+               Accuracy : 0.8867          
+                 95% CI : (0.8248, 0.9326)
     No Information Rate : 0.6             
-    P-Value [Acc > NIR] : < 2e-16         
+    P-Value [Acc > NIR] : 7.124e-15       
                                           
-                  Kappa : 0.8442          
- Mcnemar's Test P-Value : 0.07044         
+                  Kappa : 0.7578          
+ Mcnemar's Test P-Value : 0.05235         
                                           
-            Sensitivity : 0.8500          
-            Specificity : 0.9778          
-         Pos Pred Value : 0.9623          
-         Neg Pred Value : 0.9072          
+            Sensitivity : 0.7833          
+            Specificity : 0.9556          
+         Pos Pred Value : 0.9216          
+         Neg Pred Value : 0.8687          
              Prevalence : 0.4000          
-         Detection Rate : 0.3400          
-   Detection Prevalence : 0.3533          
-      Balanced Accuracy : 0.9139          
+         Detection Rate : 0.3133          
+   Detection Prevalence : 0.3400          
+      Balanced Accuracy : 0.8694          
                                           
        'Positive' Class : Yes             
                                           
