@@ -105,13 +105,8 @@ mp
 Data science and machine learning
 ========================================================
 
-<<<<<<< HEAD
 - Data science & Machine learning
 - A review on iris.
-=======
-- Data science & Machine learning.
-- An illustration on iris data set.
->>>>>>> parent of 8ca27fd... Revert "New pic for employee attrition illustration"
 
 ```{r, echo=FALSE, fig.height=8, fig.width=10}
 
@@ -123,26 +118,6 @@ ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
 rattle::fancyRpartPlot(model_iris, main="Decision tree model built on iris data.")
 ```
 
-<<<<<<< HEAD
-- Use cases: predictive maintenance, churn prediction, etc.
-
-General work flow
-========================================================
-
-Microsoft Team Data Science Process
-
-Use case - employee attrition prediction
-========================================================
-
-- Voluntary and involuntary.
-- Consequences of employee attrition.
-    - Loss of human resources.
-    - Cost on new hires.
-    - Potential loss of IP.
-=======
-- Use cases: predictive maintenance, demand forecasting, churn prediction, etc.
->>>>>>> parent of 8ca27fd... Revert "New pic for employee attrition illustration"
-    
 General work flow
 ========================================================
 
