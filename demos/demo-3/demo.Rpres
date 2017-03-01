@@ -61,15 +61,15 @@ load("./models.RData")
 
 - Introduction.
 - Employee attrition prediction with sentiment analysis.
-- Walk-through of an R "accelerator".
+- Walk-through of an R accelerator.
 
 Introduction
 ========================================================
 
 - Microsoft Algorithms and Data Science (ADS).
 - ADS Asia Pacific. 
-    - Data science accelerators to resolve real-world problems.
     - Scalable tools & algorithms for advanced analytics.
+    - Data science accelerators to resolve real-world problems.
 
 ```{r, echo=FALSE, fig.align="center", fig.width=15, fig.height=8}
 
@@ -105,8 +105,11 @@ mp
 Data science and machine learning
 ========================================================
 
-- Data science & Machine learning.
-- An illustration on iris data set.
+- Data science
+- Machine learning
+    - Predictive maintenance.
+    - Demand forecasting.
+    - Churn prediction.
 
 ```{r, echo=FALSE, fig.height=8, fig.width=10}
 
@@ -118,27 +121,31 @@ ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
 rattle::fancyRpartPlot(model_iris, main="Decision tree model built on iris data.")
 ```
 
-- Use cases: predictive maintenance, demand forecasting, churn prediction, etc.
-    
-General work flow
-========================================================
-
-- Team Data Science Process (TDSP)
-- Github repo: https://github.com/Azure/Microsoft-TDSP
-
-![](./demo-figure/tdsp.png)    
-
 Use case - employee attrition prediction
 ========================================================
 
-![](./demo-figure/employee_sentiment.png)    
-
 - Voluntary and involuntary.
 - Consequences of employee attrition.
-    - Loss of human resources and cost on new hires.
-    - Potential loss of company intellectual properties.
-- Problem formalization
-    - to identify employees with inclination of leaving.
+    - Loss of human resources.
+    - Cost on new hires.
+    - Potential loss of IP.
+    
+Use case - employee attrition prediction
+========================================================
+
+A general workflow
+
+1. Problem formalization.
+2. Data collection, exploration, and preparation.
+3. Feature extraction.
+4. Model creation and validation.
+
+Problem formalization
+========================================================
+
+- Attrition rate.
+- **Individual attrition** 
+    - to identify employees with inclination of leaving with the available data.
 
 Data collection, exploration, and preparation
 ========================================================
@@ -146,13 +153,21 @@ Data collection, exploration, and preparation
 - historical records of each employee.
     - Time series.
     - Aggregated data.
-    - Unstructured data.
 - Labelled by employment status.
 
 |Categories|Description|Factors|
-|-----------|-------------------|------------------|
+|-----------|------------------------|------------------|
 |Static|All sorts of demographic data, data that changes deterministically over time, etc.|Age, gender, years of service, etc.|
 |Dynamic|Data that evolves over time, temporary data, etc.|Performance, salary, working hour, satifcation of job, social media posts, etc.|
+
+Data collection, exploration, and preparation
+========================================================
+
+More understanding on data.
+
+- Consult domain experts.
+- Data exploration.
+- Visualization.
 
 Data collection, exploration, and preparation
 ========================================================
@@ -236,8 +251,7 @@ Feature Extraction
     - Data aggregation.
         - Time series characteristics.
         - Statistical measures.
-    - Unstructured data.
-        - Natural language process.
+    - Natural language process.
     
 Feature Extraction (Cont'd)
 ========================================================
@@ -278,20 +292,10 @@ Model creation and validation
 Employee attrition prediction - R accelerator
 ========================================================
 
-- What is an R "accelerator"
-    - Lightweight end-to-end solution template.
-    - Follows Microsoft Team Data Science Process (TDSP) format, in a simplified version.
-    - Easy for prototyping, presenting, and documenting.
+- What-is
+    - **Lightweight end-to-end solution templates that can be reused for accelerating process of prototyping, presenting, and documenting a data science solution of specific domain.**
     - Github repo https://github.com/Microsoft/acceleratoRs
-
-Step 0 Setup
-========================================================
-
-R session for the employee attrition prediction accelerator.
-
-```{r, echo=FALSE}
-print(sessionInfo(), locale=FALSE)
-```
+- Why R
 
 Step 1 Data exploration
 ========================================================
@@ -366,15 +370,10 @@ model <- train(dplyr::select(df1, -Attrition),
                trControl=control)
 ```
 
-Step 2 Feature extraction (Cont'd)
-========================================================
-
-```{r, fig.align="center", fig.height=8, fig.width=15}
+```{r}
 # estimate variable importance
 
 imp <- varImp(model, scale=FALSE)
-
-plot(imp, cex=3)
 
 ```
 
@@ -449,8 +448,6 @@ Step 4 Model building (Cont'd)
 
 Let's try several machine learning algorithms.
 
-- Support vector machine.
-
 ```{r, eval=FALSE}
 # SVM model.
 
@@ -460,14 +457,7 @@ time_svm <- system.time(
                      method="svmRadial",
                      trainControl=tc)
 )
-```
 
-Step 4 Model building (Cont'd)
-========================================================
-
-- Random forest model.
-
-```{r, eval=FALSE}
 # random forest model
 
 time_rf <- system.time(
@@ -476,14 +466,7 @@ time_rf <- system.time(
                      method="rf",
                      trainControl=tc)
 )
-```
 
-Step 4 Model building (Cont'd)
-========================================================
-
-- Extreme gradient boosting model.
-
-```{r, eval=FALSE}
 # xgboost model.
 
 time_xgb <- system.time(
@@ -509,7 +492,6 @@ time_ensemble <- system.time(
                           methodList=c("svmRadial", "rf", "xgbLinear"))
 )
 ```
-
 ```{r, eval=FALSE}
 # stack of models. Use glm for meta model.
 
@@ -523,8 +505,6 @@ model_stack <- caretStack(
 
 Step 5 Model evaluating
 ========================================================
-
-Evaluating models with confusion matrix.
 
 ```{r}
 predictions <-lapply(models, 
@@ -544,7 +524,7 @@ cm_metrics <- lapply(predictions,
 Step 5 Model evaluating (Cont'd)
 ========================================================
 
-Comparison of different models in terms of .
+Comparison of different models.
 
 ```{r, echo=FALSE}
 # accuracy
@@ -569,7 +549,7 @@ pre_metrics <-
   unlist()
 ```
 
-```{r, echo=FALSE}
+```{r, eval=FALSE}
 algo_list <- c("SVM RBF", "Random Forest", "Xgboost", "Stacking")
 time_consumption <- c(time_svm[3], time_rf[3], time_xgb[3], time_ensemble[3])
 
@@ -587,18 +567,11 @@ Step 6 Sentiment analysis - a glimpse
 ```{r}
 # getting the data.
 
-head(df2$Feedback, 5)
+head(df2$Feedback, 10)
 ```
 
 Step 7 Sentiment analysis - feature extraction
 ========================================================
-
-- Text analysis with `tm` package in R.
-- General steps
-    - Initial transformation.
-    - Bag-of-words.
-    - Model creation.
-
 ```{r}
 # create a corpus based upon the text data.
 
@@ -632,15 +605,11 @@ dtm_txt <-
 ```
 
 ```{r}
-dtm_txt[1:5, 1:10] %<>%
-  inspect(dtm_txt) %>% 
-  as.data.frame()
-```
-
-```{r, echo=FALSE}
 df_txt <- 
   inspect(dtm_txt) %>%
   as.data.frame()
+
+head(df_txt, 20)
 ```
 
 Step 8 Sentiment analysis - model creation and validation
@@ -674,26 +643,25 @@ model_sent <- train(Attrition ~ .,
                     df_txt_train,
                     method="svmRadial",
                     trainControl=tc)
-
-prediction <- predict(model_sent, newdata=select(df_txt_test, -Attrition))
-
 ```
 
 Step 8 Sentiment analysis - model creation and validation (Cont'd)
 ========================================================
 
 ```{r}
+# model evaluation
+
+prediction <- predict(model_sent, newdata=select(df_txt_test, -Attrition))
+
 confusionMatrix(prediction,
                 reference=df_txt_test$Attrition,
                 positive="Yes")
 ```
 
-Takeaways
+Last slide
 ========================================================
-- DS & ML combined with domain knowledge.
-- Feature engineering takes majority of time.
-- Scale up an accelerator?
-- All resources available on Github!
+- Employee retention is important.
+- DS & ML helps!
+- Feedbacks are welcome! 
 
-Le Zhang 
-zhle@microsoft.com
+Le Zhang zhle@microsoft.com
