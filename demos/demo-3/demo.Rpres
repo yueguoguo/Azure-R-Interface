@@ -276,7 +276,7 @@ Model creation and validation
 Employee attrition prediction - R accelerator
 ========================================================
 
-- What is an R "accelerator"
+- What is R "accelerator"
     - Lightweight end-to-end solution template.
     - Follows Microsoft Team Data Science Process (TDSP) format, in a simplified version.
     - Easy for prototyping, presenting, and documenting.
@@ -312,6 +312,11 @@ head(df2$Feedback, 3)
 
 Step 2 Data preprocessing
 ========================================================
+
+- Handle NAs.
+- Remove non-variants.
+- Normalization.
+- Data type conversion.
 
 ```{r}
 # get predictors that has no variation.
@@ -349,7 +354,11 @@ df1 %<>% mutate_if(is.character, as.factor)
 Step 2 Feature extraction
 ========================================================
 
-Select salient features with a pre-trained model.
+- Extract features from original variables.
+- Reduce dimensionality.
+- Select salient features from all.
+    - Correlation analysis.
+    - Feature selection With a trained model.
 
 ```{r, eval=FALSE}
 control <- trainControl(method="repeatedcv", number=3, repeats=1)
@@ -388,13 +397,15 @@ imp_list <- rownames(imp$importance)[order(imp$importance$Overall, decreasing=TR
 
 top_var <- 
   imp_list[1:(ncol(df1) - 3)] %>%
-  as.character() 
+  as.character() %T>%
+  print()
 
-top_var
 ```
 
 Step 3 Resampling
 ========================================================
+
+- Split data set into trainning and testing sets.
 
 ```{r}
 train_index <- 
@@ -411,8 +422,20 @@ df1_test <- df1[-train_index, ]
 table(df1_train$Attrition)
 ```
 
+- Training set is not balanced!
+
 Step 3 Resampling (Cont'd)
 ========================================================
+
+To handle imbalanced data sets
+
+- Cost-sensitive learning.
+- Resampling of data.
+    - Synthetic Minority Over-sampling TechniquE (SMOTE)
+        - Upsampling minority class synthetically.
+        - Downsampling majority class.
+
+***
 
 ```{r}
 
@@ -431,9 +454,14 @@ table(df1_train$Attrition)
 Step 4 Model building
 ========================================================
 
+- Select algorithm for model creation.
+- Tune model parameters.
+- Cross validation for searching the optimal model.
+
 ```{r, eval=FALSE}
 # initialize training control. 
-tc <- trainControl(method="boot", 
+
+tc <- trainControl(method="repeatedcv", 
                    number=3, 
                    repeats=3, 
                    search="grid",
@@ -463,7 +491,7 @@ time_svm <- system.time(
 Step 4 Model building (Cont'd)
 ========================================================
 
-- Random forest model.
+- Random forest.
 
 ```{r, eval=FALSE}
 # random forest model
@@ -479,7 +507,7 @@ time_rf <- system.time(
 Step 4 Model building (Cont'd)
 ========================================================
 
-- Extreme gradient boosting model.
+- Extreme gradient boosting (XGBoost).
 
 ```{r, eval=FALSE}
 # xgboost model.
@@ -496,6 +524,13 @@ Step 4 Model building (Cont'd)
 ========================================================
 
 An ensemble may be better?
+
+- Ensemble of models.
+- Ensemble methods - bagging, boosting, and stacking.
+
+![](./demo-figure/stacking.png)
+
+***
 
 ```{r, eval=FALSE}
 # ensemble of the three models.
@@ -522,7 +557,8 @@ model_stack <- caretStack(
 Step 5 Model evaluating
 ========================================================
 
-Evaluating models with confusion matrix.
+- Confusion matrix.
+- Performance measure.
 
 ```{r}
 predictions <-lapply(models, 
@@ -542,7 +578,7 @@ cm_metrics <- lapply(predictions,
 Step 5 Model evaluating (Cont'd)
 ========================================================
 
-Comparison of different models in terms of .
+- Comparison of different models in terms of accuracy, recall, precision, and elapsed time.
 
 ```{r, echo=FALSE}
 # accuracy
@@ -571,16 +607,26 @@ pre_metrics <-
 algo_list <- c("SVM RBF", "Random Forest", "Xgboost", "Stacking")
 time_consumption <- c(time_svm[3], time_rf[3], time_xgb[3], time_ensemble[3])
 
+specify_decimal <- function(x, k) format(round(x, k), nsmall=k)
+
 df_comp <- 
   data.frame(Models=algo_list, 
              Accuracy=acc_metrics, 
              Recall=rec_metrics, 
              Precision=pre_metrics,
-             Elapsed=time_consumption) %T>%
-             {head(.) %>% print()}
+             Elapsed=time_consumption) %>%
+  mutate(Accuracy=specify_decimal(Accuracy, 2),
+         Recall=specify_decimal(Recall, 2),
+         Precision=specify_decimal(Precision, 2)) 
+
+df_comp
 ```
 
-Step 6 Sentiment analysis - a glimpse
+- Analysis
+    - Ensemble method excels from all.
+    - Diversity of model affects ensemble performance.
+
+Step 6 Sentiment analysis - a glimpse of data
 ========================================================
 ```{r}
 # getting the data.
@@ -591,11 +637,20 @@ head(df2$Feedback, 5)
 Step 7 Sentiment analysis - feature extraction
 ========================================================
 
-- Text analysis with `tm` package in R.
-- General steps
-    - Initial transformation.
-    - Bag-of-words.
-    - Model creation.
+- General methods
+    - Initial transformation 
+        - Removal of unnecessary elements (stopwords, numbers, punctuations, etc.).
+            - Stopwords: yes, no, you, I, etc.
+        - Translation or sentence/word alignment.
+            - Multi-lingual text analysis.
+        - POS tagging.
+    - Bag-of-words model
+        - n-Grams.
+        - Term frequency (TF) or Term frequency inverse-document frequency (TF-IDF).
+    - Model creation
+
+Step 7 Sentiment analysis - feature extraction (Cont'd)
+========================================================
 
 ```{r}
 # create a corpus based upon the text data.
@@ -614,9 +669,6 @@ corp_text %<>%
   tm_map(stripWhitespace) 
 ```
 
-Step 7 Sentiment analysis - feature extraction (Cont'd)
-========================================================
-
 ```{r}
 dtm_txt_tf <- 
   DocumentTermMatrix(corp_text, control=list(wordLengths=c(1, Inf), weighting=weightTf)) 
@@ -629,13 +681,17 @@ dtm_txt <-
   removeSparseTerms(dtm_txt_tf, 0.99)
 ```
 
+Step 7 Sentiment analysis - feature extraction (Cont'd)
+========================================================
+
+- Convert corpus to term frequency matrix.
+
 ```{r}
-dtm_txt[1:5, 1:10] %<>%
-  inspect(dtm_txt) %>% 
-  as.data.frame()
+dtm_txt_sample <- removeSparseTerms(dtm_txt_tf, 0.85)
+inspect(dtm_txt_sample[1:10, ]) 
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 df_txt <- 
   inspect(dtm_txt) %>%
   as.data.frame()
@@ -643,6 +699,8 @@ df_txt <-
 
 Step 8 Sentiment analysis - model creation and validation
 ========================================================
+
+- Create and validate a classification model.
 
 ```{r}
 # form the data set
@@ -665,6 +723,8 @@ df_txt_test <- df_txt[-train_index, ]
 Step 8 Sentiment analysis - model creation and validation (Cont'd)
 ========================================================
 
+- SVM is used.
+
 ```{r, eval=FALSE}
 # model building
 
@@ -672,15 +732,16 @@ model_sent <- train(Attrition ~ .,
                     df_txt_train,
                     method="svmRadial",
                     trainControl=tc)
+```
 
+```{r}
 prediction <- predict(model_sent, newdata=select(df_txt_test, -Attrition))
-
 ```
 
 Step 8 Sentiment analysis - model creation and validation (Cont'd)
 ========================================================
 
-```{r}
+```{r, echo=FALSE}
 confusionMatrix(prediction,
                 reference=df_txt_test$Attrition,
                 positive="Yes")
@@ -690,8 +751,19 @@ Takeaways
 ========================================================
 - DS & ML combined with domain knowledge.
 - Feature engineering takes majority of time.
-- Scale up an accelerator?
+- Scale up your analytics?
 - All resources available on Github!
 
+References
+========================================================
+
+1. Terence R. Michelle et al., "Why people stay: using job embeddedness to predict voluntary turnover".
+2. Bo Pang and Lillian Lee, "Opinion mining and sentiment analysis".
+3. Nitesh V. Chawla et al., "SMOTE: Synthetic Minority Over-sampling Technique".
+
+Contact
+========================================================
+
 Le Zhang 
+
 zhle@microsoft.com

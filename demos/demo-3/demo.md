@@ -1,7 +1,7 @@
 Employee Attrition Prediction with R Accelerator
 ========================================================
 author: Le Zhang, Data Scientist at Microsoft
-date: 2017-03-01
+date: 2017-03-02
 width: 1600
 height: 1000
 
@@ -166,7 +166,7 @@ Model creation and validation
 Employee attrition prediction - R accelerator
 ========================================================
 
-- What is an R "accelerator"
+- What is R "accelerator"
     - Lightweight end-to-end solution template.
     - Follows Microsoft Team Data Science Process (TDSP) format, in a simplified version.
     - Easy for prototyping, presenting, and documenting.
@@ -264,6 +264,11 @@ head(df2$Feedback, 3)
 Step 2 Data preprocessing
 ========================================================
 
+- Handle NAs.
+- Remove non-variants.
+- Normalization.
+- Data type conversion.
+
 
 ```r
 # get predictors that has no variation.
@@ -309,7 +314,11 @@ df1 %<>% mutate_if(is.character, as.factor)
 Step 2 Feature extraction
 ========================================================
 
-Select salient features with a pre-trained model.
+- Extract features from original variables.
+- Reduce dimensionality.
+- Select salient features from all.
+    - Correlation analysis.
+    - Feature selection With a trained model.
 
 
 ```r
@@ -352,9 +361,8 @@ imp_list <- rownames(imp$importance)[order(imp$importance$Overall, decreasing=TR
 
 top_var <- 
   imp_list[1:(ncol(df1) - 3)] %>%
-  as.character() 
-
-top_var
+  as.character() %T>%
+  print()
 ```
 
 ```
@@ -376,6 +384,8 @@ top_var
 
 Step 3 Resampling
 ========================================================
+
+- Split data set into trainning and testing sets.
 
 
 ```r
@@ -400,8 +410,20 @@ table(df1_train$Attrition)
 864 166 
 ```
 
+- Training set is not balanced!
+
 Step 3 Resampling (Cont'd)
 ========================================================
+
+To handle imbalanced data sets
+
+- Cost-sensitive learning.
+- Resampling of data.
+    - Synthetic Minority Over-sampling TechniquE (SMOTE)
+        - Upsampling minority class synthetically.
+        - Downsampling majority class.
+
+***
 
 
 ```r
@@ -427,10 +449,15 @@ table(df1_train$Attrition)
 Step 4 Model building
 ========================================================
 
+- Select algorithm for model creation.
+- Tune model parameters.
+- Cross validation for searching the optimal model.
+
 
 ```r
 # initialize training control. 
-tc <- trainControl(method="boot", 
+
+tc <- trainControl(method="repeatedcv", 
                    number=3, 
                    repeats=3, 
                    search="grid",
@@ -461,7 +488,7 @@ time_svm <- system.time(
 Step 4 Model building (Cont'd)
 ========================================================
 
-- Random forest model.
+- Random forest.
 
 
 ```r
@@ -478,7 +505,7 @@ time_rf <- system.time(
 Step 4 Model building (Cont'd)
 ========================================================
 
-- Extreme gradient boosting model.
+- Extreme gradient boosting (XGBoost).
 
 
 ```r
@@ -496,6 +523,13 @@ Step 4 Model building (Cont'd)
 ========================================================
 
 An ensemble may be better?
+
+- Ensemble of models.
+- Ensemble methods - bagging, boosting, and stacking.
+
+![](./demo-figure/stacking.png)
+
+***
 
 
 ```r
@@ -524,7 +558,8 @@ model_stack <- caretStack(
 Step 5 Model evaluating
 ========================================================
 
-Evaluating models with confusion matrix.
+- Confusion matrix.
+- Performance measure.
 
 
 ```r
@@ -546,20 +581,24 @@ cm_metrics <- lapply(predictions,
 Step 5 Model evaluating (Cont'd)
 ========================================================
 
-Comparison of different models in terms of .
+- Comparison of different models in terms of accuracy, recall, precision, and elapsed time.
 
 
 
 
 ```
-         Models  Accuracy    Recall Precision Elapsed
-1       SVM RBF 0.8454545 0.8450704 0.5128205   27.69
-2 Random Forest 0.9022727 0.8591549 0.6489362  220.19
-3       Xgboost 0.9045455 0.8450704 0.6593407  290.05
-4      Stacking 0.9159091 0.9154930 0.6770833   84.36
+         Models Accuracy Recall Precision Elapsed
+1       SVM RBF     0.85   0.82      0.52   27.69
+2 Random Forest     0.93   0.87      0.73  220.19
+3       Xgboost     0.92   0.83      0.70  290.05
+4      Stacking     0.93   0.92      0.74   84.36
 ```
 
-Step 6 Sentiment analysis - a glimpse
+- Analysis
+    - Ensemble method excels from all.
+    - Diversity of model affects ensemble performance.
+
+Step 6 Sentiment analysis - a glimpse of data
 ========================================================
 
 ```r
@@ -579,11 +618,20 @@ head(df2$Feedback, 5)
 Step 7 Sentiment analysis - feature extraction
 ========================================================
 
-- Text analysis with `tm` package in R.
-- General steps
-    - Initial transformation.
-    - Bag-of-words.
-    - Model creation.
+- General methods
+    - Initial transformation 
+        - Removal of unnecessary elements (stopwords, numbers, punctuations, etc.).
+            - Stopwords: yes, no, you, I, etc.
+        - Translation or sentence/word alignment.
+            - Multi-lingual text analysis.
+        - POS tagging.
+    - Bag-of-words model
+        - n-Grams.
+        - Term frequency (TF) or Term frequency inverse-document frequency (TF-IDF).
+    - Model creation
+
+Step 7 Sentiment analysis - feature extraction (Cont'd)
+========================================================
 
 
 ```r
@@ -604,9 +652,6 @@ corp_text %<>%
   tm_map(stripWhitespace) 
 ```
 
-Step 7 Sentiment analysis - feature extraction (Cont'd)
-========================================================
-
 
 ```r
 dtm_txt_tf <- 
@@ -621,18 +666,135 @@ dtm_txt <-
   removeSparseTerms(dtm_txt_tf, 0.99)
 ```
 
+Step 7 Sentiment analysis - feature extraction (Cont'd)
+========================================================
+
+- Convert corpus to term frequency matrix.
+
+
+```r
+dtm_txt_sample <- removeSparseTerms(dtm_txt_tf, 0.85)
+inspect(dtm_txt_sample[1:10, ]) 
+```
+
+```
+<<DocumentTermMatrix (documents: 10, terms: 6)>>
+Non-/sparse entries: 19/41
+Sparsity           : 68%
+Maximal term length: 7
+Weighting          : term frequency (tf)
+
+    Terms
+Docs company google great people smart work
+  1        0      0     1      2     0    1
+  2        0      0     0      2     1    2
+  3        0      0     0      0     0    0
+  4        0      1     1      0     0    1
+  5        0      0     1      0     0    0
+  6        0      0     0      2     1    1
+  7        0      0     0      0     0    0
+  8        0      0     1      1     0    3
+  9        0      0     1      0     0    0
+  10       0      0     0      1     0    1
+```
 
 
 
+Step 8 Sentiment analysis - model creation and validation
+========================================================
+
+- Create and validate a classification model.
 
 
+```r
+# form the data set
+
+df_txt %<>% cbind(Attrition=df2$Attrition)
+```
+
+```r
+# split data set into training and testing set.
+
+train_index <- 
+  createDataPartition(df_txt$Attrition,
+                      times=1,
+                      p=.7) %>%
+  unlist()
+
+df_txt_train <- df_txt[train_index, ]
+df_txt_test <- df_txt[-train_index, ]
+```
+
+Step 8 Sentiment analysis - model creation and validation (Cont'd)
+========================================================
+
+- SVM is used.
 
 
+```r
+# model building
+
+model_sent <- train(Attrition ~ .,
+                    df_txt_train,
+                    method="svmRadial",
+                    trainControl=tc)
+```
 
 
+```r
+prediction <- predict(model_sent, newdata=select(df_txt_test, -Attrition))
+```
 
+Step 8 Sentiment analysis - model creation and validation (Cont'd)
+========================================================
 
 
 ```
-Error in inspect(., dtm_txt) : unused argument (dtm_txt)
+Confusion Matrix and Statistics
+
+          Reference
+Prediction No Yes
+       No  88  12
+       Yes  2  48
+                                         
+               Accuracy : 0.9067         
+                 95% CI : (0.8484, 0.948)
+    No Information Rate : 0.6            
+    P-Value [Acc > NIR] : < 2e-16        
+                                         
+                  Kappa : 0.8            
+ Mcnemar's Test P-Value : 0.01616        
+                                         
+            Sensitivity : 0.8000         
+            Specificity : 0.9778         
+         Pos Pred Value : 0.9600         
+         Neg Pred Value : 0.8800         
+             Prevalence : 0.4000         
+         Detection Rate : 0.3200         
+   Detection Prevalence : 0.3333         
+      Balanced Accuracy : 0.8889         
+                                         
+       'Positive' Class : Yes            
+                                         
 ```
+
+Takeaways
+========================================================
+- DS & ML combined with domain knowledge.
+- Feature engineering takes majority of time.
+- Scale up your analytics?
+- All resources available on Github!
+
+References
+========================================================
+
+1. Terence R. Michelle et al., "Why people stay: using job embeddedness to predict voluntary turnover".
+2. Bo Pang and Lillian Lee, "Opinion mining and sentiment analysis".
+3. Nitesh V. Chawla et al., "SMOTE: Synthetic Minority Over-sampling Technique".
+
+Contact
+========================================================
+
+Le Zhang 
+
+zhle@microsoft.com
