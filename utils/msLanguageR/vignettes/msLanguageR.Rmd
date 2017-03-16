@@ -34,7 +34,7 @@ Install `msLanguageR` at Github repository.
 
 # Install devtools
 if(!require("devtools")) install.packages("devtools")
-devtools::install_github("https://github.com/yueguoguo/Azure-R-Interface/tree/master/utils/msLanguageR")
+devtools::install_github("yueguoguo/Azure-R-Interface/utils/msLanguageR")
 library(msLanguageR)
 ```
 
