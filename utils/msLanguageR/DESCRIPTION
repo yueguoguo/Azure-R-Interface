@@ -1,4 +1,4 @@
-Package: languageR
+Package: msLanguageR
 Title: Microsoft Cognitive Service for natural language processing application.
 Version: 0.1.0
 Authors@R: person("Le", "Zhang", email = "zhle@microsoft.com", role = c("aut", "cre"))

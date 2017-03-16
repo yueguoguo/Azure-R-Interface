@@ -1,6 +1,6 @@
-#' languageR
+#' msLanguageR
 #' 
-#' The languageR package provides R functions to deploy Microsoft Cognitive Services for language-related analysis.
+#' The msLanguageR package provides R functions to deploy Microsoft Cognitive Services for language-related analysis.
 #' 
 #' Currently supported Cognitive Service APIs include
 #' 
@@ -11,8 +11,8 @@
 #' \item Linguistic API
 #' }
 #' 
-#' @name languageR-package
-#' @aliases languageR
+#' @name msLanguageR-package
+#' @aliases msLanguageR
 #' @docType package
 #' @keywords package
 #' 

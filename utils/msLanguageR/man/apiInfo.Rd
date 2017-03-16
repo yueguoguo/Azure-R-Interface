@@ -7,7 +7,7 @@
 apiInfo(funName)
 }
 \arguments{
-\item{funName}{Function name as a string.}
+\item{funName}{Function name as a string. It's optional. If not provides, information of all the functions will be printed.}
 }
 \value{
 Print the information of API keys for functions in the package.

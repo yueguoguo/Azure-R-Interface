@@ -7,6 +7,6 @@
 stopWithError(response)
 }
 \arguments{
-\item{r}{response returned from a http request.}
+\item{r}{Response returned from a http request.}
 }
 

@@ -1,5 +1,5 @@
 ---
-title: "languageR Instructions"
+title: "msLanguageR Instructions"
 author: "Zhang Le, Data Scientist, Microsoft"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -11,20 +11,32 @@ vignette: >
 
 ### Introduction
 
-Text analysis becomes an essential part in contemporary advanced analytics and artificial intelligence applications. Building complete text analytics framework/system in R takes considerable work and time. `languageR` provides out-of-box methods for text analytics such as translation, sentiment analysis, topic detection, etc, with the help of Microsoft Cognitive Service APIs, which simplify the process of text analysis in R environment. 
+Text analysis becomes an essential part in contemporary advanced analytics and artificial intelligence applications. Building complete text analytics framework/system in R takes considerable work and time. `msLanguageR` provides out-of-box methods for text analytics such as translation, sentiment analysis, topic detection, etc, with the help of Microsoft Cognitive Service APIs, which simplify the process of text analysis in R environment. 
 
 ### Preliminaries
 
-The `languageR` functions call APIs of Microsoft Cognitive Services. Subscription of Microsoft Azure is therefore required to obtain the key corresponding to a service. 
+The `msLanguageR` functions call APIs of Microsoft Cognitive Services. Subscription of Microsoft Azure is therefore required to obtain the key corresponding to a service. 
 
-Generally, before using the `languageR` functions, one needs to 
+Generally, before using the `msLanguageR` functions, one needs to 
 
 1. Apply an Azure account. Free trial is available.
 2. Deploy Cognitive Service in the market place at [Azure Portal](https://portal.azure.com/). In the deployment, select the specific service (e.g., Text Analytics) to be hosted on the cloud. 
 3. Get the API Key of the deployed cognitive service.
-4. Use `languageR::apiInfo()` or `languageR::apiInfo("function name")` to list information of all APIs or a specific one.
+4. Use `msLanguageR::apiInfo()` or `msLanguageR::apiInfo("function name")` to list information of all APIs or a specific one.
 
 More details can be found at the [website](https://www.microsoft.com/cognitive-services/en-us/apis).
+
+### Installation
+
+Install `msLanguageR` at Github repository.
+
+```{r eval=FALSE, echo=TRUE}
+
+# Install devtools
+if(!require("devtools")) install.packages("devtools")
+devtools::install_github("https://github.com/yueguoguo/Azure-R-Interface/tree/master/utils/msLanguageR")
+library(msLanguageR)
+```
 
 ### Text analytics functions
 
