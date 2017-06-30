@@ -17,7 +17,7 @@ sudo /anaconda/envs/py35/bin/pip install --upgrade keras
 
 # run keras once so that ~/.keras/keras.json is generated.
 
-/anaconda/envs/py35/bin/python3.5 -c 'import keras'
+python -c 'import keras'
 
 # Default backend is TensorFlow. Change it to CNTK.
 
