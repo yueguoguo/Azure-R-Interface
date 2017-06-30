@@ -17,7 +17,7 @@ sudo /anaconda/envs/py35/bin/pip install --upgrade keras
 
 # make a keras config file
 
-echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}'
+echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > ~/.keras/keras.json
 
 # run keras once so that ~/.keras/keras.json is generated.
 
