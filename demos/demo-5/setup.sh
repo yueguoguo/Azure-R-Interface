@@ -2,7 +2,7 @@
 
 # install "reticulate"/"debugme"/"processx"/"keras"
 
-Rscript -e
+sudo Rscript -e
 'library(devtools);devtools::install_github("rstudio/reticulate");devtools::install_github("gaborcsardi/debugme");source("https://install-github.me/MangoTheCat/processx");devtools::install_github("rstudio/keras")'
 
 # downgrade CNTK. CNTK2.0RC1 is pre-installed but it does not have
