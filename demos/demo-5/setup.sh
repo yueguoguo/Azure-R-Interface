@@ -23,3 +23,6 @@ sudo /anaconda/envs/py35/bin/pip install --upgrade keras
 
 find ~/.keras/keras.json -type f -exec sed -i 's/tensorflow/cntk/g' {} \;
 
+# Switch on RStudio Server
+
+sudo rstudio-server start
