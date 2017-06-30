@@ -15,13 +15,17 @@ sudo /anaconda/envs/py35/bin/pip install https://cntk.ai/PythonWheel/GPU/cntk-2.
 sudo /anaconda/envs/py35/bin/pip install --upgrade pip
 sudo /anaconda/envs/py35/bin/pip install --upgrade keras 
 
+# make a keras config file
+
+echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}'
+
 # run keras once so that ~/.keras/keras.json is generated.
 
-python -c 'import keras'
+# python -c 'import keras'
 
 # Default backend is TensorFlow. Change it to CNTK.
 
-find ~/.keras/keras.json -type f -exec sed -i 's/tensorflow/cntk/g' {} \;
+# find ~/.keras/keras.json -type f -exec sed -i 's/tensorflow/cntk/g' {} \;
 
 # Switch on RStudio Server
 
