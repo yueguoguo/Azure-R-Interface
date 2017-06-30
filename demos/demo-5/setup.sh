@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# install "reticulate"/"debugme"/"processx"/"keras"
+# install "reticulate"/"debugme"/"processx"/"keras". 
 
-sudo Rscript -e
-'library(devtools);devtools::install_github("rstudio/reticulate");devtools::install_github("gaborcsardi/debugme");source("https://install-github.me/MangoTheCat/processx");devtools::install_github("rstudio/keras")'
+sudo Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate");devtools::install_github("gaborcsardi/debugme");source("https://install-github.me/MangoTheCat/processx");devtools::install_github("rstudio/keras")'
 
 # downgrade CNTK. CNTK2.0RC1 is pre-installed but it does not have
 # attribute set_global_option for initializing properly.
@@ -23,5 +22,5 @@ python -c 'import keras'
 
 # Default backend is TensorFlow. Change it to CNTK.
 
-find ~/.keras/keras.json -type f -exec sed -i 's/tensorflow/cntk/g' {}
-\;
+find ~/.keras/keras.json -type f -exec sed -i 's/tensorflow/cntk/g' {} \;
+
