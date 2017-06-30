@@ -9,23 +9,14 @@ sudo Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate"
 
 sudo /anaconda/envs/py35/bin/pip install https://cntk.ai/PythonWheel/GPU/cntk-2.0-cp35-cp35m-linux_x86_64.whl
 
-# upgrade pip and keras. By default keras R package does not install the
+# upgrade keras. By default keras R package does not install the
 # latest version so there is no CNTK backend supported.
 
-sudo /anaconda/envs/py35/bin/pip install --upgrade pip
 sudo /anaconda/envs/py35/bin/pip install --upgrade keras 
 
 # make a keras config file
 
 echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > ~/.keras/keras.json
-
-# run keras once so that ~/.keras/keras.json is generated.
-
-# python -c 'import keras'
-
-# Default backend is TensorFlow. Change it to CNTK.
-
-# find ~/.keras/keras.json -type f -exec sed -i 's/tensorflow/cntk/g' {} \;
 
 # Switch on RStudio Server
 
