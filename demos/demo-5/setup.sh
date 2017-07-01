@@ -18,6 +18,10 @@ sudo /anaconda/envs/py35/bin/pip install --upgrade keras
 
 echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > ~/.keras/keras.json
 
+# add environment variables.
+export KERAS_BACKEND="cntk"
+export KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5"
+
 # Switch on RStudio Server
 
 sudo rstudio-server start
