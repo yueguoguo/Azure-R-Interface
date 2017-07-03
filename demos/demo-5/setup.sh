@@ -7,12 +7,26 @@ Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate");dev
 # create keras config json file.
 
 mkdir ~/.keras
-echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > ~/.keras/keras.json
+cat > ~/.keras/kears.json << EOF
+{
+    "floatx":"float32",
+    "image_data_format":"channels_last",
+    "epsilon":1e-01,
+    "backend":"cntk"
+}
+EOF
+
+# echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > ~/.keras/keras.json
 
 # export environment variables.
 
-echo 'Sys.setenv(KERAS_BACKEND="cntk")' > .Rprofile
-echo 'Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5")' >> .Rprofile
+cat > .Rprofile << EOF
+Sys.setenv(KERAS_BACKEND="cntk")
+Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python")
+EOF
+
+# echo 'Sys.setenv(KERAS_BACKEND="cntk")' > .Rprofile
+# echo 'Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5")' >> .Rprofile
 
 # turn on Rstudio server.
 
