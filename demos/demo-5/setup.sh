@@ -2,7 +2,7 @@
 
 # install "reticulate"/"debugme"/"processx"/"keras". 
 
-sudo Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate");devtools::install_github("gaborcsardi/debugme");source("https://install-github.me/MangoTheCat/processx");devtools::install_github("rstudio/keras")'
+Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate");devtools::install_github("gaborcsardi/debugme");source("https://install-github.me/MangoTheCat/processx");devtools::install_github("rstudio/keras")'
 
 # downgrade CNTK. CNTK2.0RC1 is pre-installed but it does not have
 # attribute set_global_option for initializing properly.
@@ -18,7 +18,7 @@ sudo Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate"
 
 # echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > ~/.keras/keras.json
 
-python -c 'import keras'
+Rscript -e 'library(keras)'
 
 sed -i 's/tensorflow/cntk/g' ~/.keras/keras.json
 
@@ -28,4 +28,4 @@ sed -i 's/tensorflow/cntk/g' ~/.keras/keras.json
 
 # Switch on RStudio Server
 
-sudo rstudio-server start
+rstudio-server start
