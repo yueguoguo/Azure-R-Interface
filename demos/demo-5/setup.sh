@@ -16,11 +16,11 @@ Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate");dev
 
 # make a keras config file
 
-# echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > ~/.keras/keras.json
+echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > ~/.keras/keras.json
 
-python -c 'import keras'
+# python -c 'import keras'
 
-sed -i 's/tensorflow/cntk/g' ~/.keras/keras.json
+# sed -i 's/tensorflow/cntk/g' ~/.keras/keras.json
 
 # add environment variables.
 # export KERAS_BACKEND="cntk"
