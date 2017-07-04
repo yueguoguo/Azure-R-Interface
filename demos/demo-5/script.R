@@ -9,9 +9,7 @@ devtools::install_github("rstudio/keras")
 
 # create the keras.json config file at ~/.keras.
 
-user <- Sys.getenv("USER")
-
-home_path <- file.path("/home", user)
+home_path <- file.path("~")
 keras_path <- file.path(home_path, ".keras")
 keras_file <- file.path(keras_path, "keras.json")
 profile_file <- file.path(home_path, ".Rprofile")
