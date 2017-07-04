@@ -16,7 +16,7 @@ df <- data.frame(floatx="float32",
                  image_data_format="channels_last",
                  epsilon=1e-7,
                  backend="cntk")
-df_json <- toJOSN(df)
+df_json <- toJSON(df)
 writeLines(df_json, con="~/.keras/keras.json")
 
 # create a .Rprofile at ~
