@@ -16,6 +16,6 @@ writeLines(keras_json, con="~/.keras/keras.json")
 
 # create a .Rprofile at ~
 
-file.create("~/.Rprofile", overwrite=TURE)
+file.create("~/.Rprofile", overwrite=TRUE)
 r_profile <- 'Sys.setenv(KERAS_BACKEND="cntk"); Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5")'
 writeLines(r_profile, con="~/.Rprofile")
