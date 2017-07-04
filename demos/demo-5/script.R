@@ -1,7 +1,6 @@
 # install packages.
 
 library(devtools)
-library(jsonlite)
 
 devtools::install_github("rstudio/reticulate")
 devtools::install_github("gaborcsardi/debugme")
@@ -11,16 +10,12 @@ devtools::install_github("rstudio/keras")
 # create the keras.json config file at ~/.keras.
 
 dir.create("~/.keras")
-file.create("~/.keras/keras.json")
-df <- data.frame(floatx="float32",
-                 image_data_format="channels_last",
-                 epsilon=1e-7,
-                 backend="cntk")
-df_json <- toJSON(df)
-writeLines(df_json, con="~/.keras/keras.json")
+file.create("~/.keras/keras.json", overwrite=TRUE)
+keras_json <- '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}'
+writeLines(keras_json, con="~/.keras/keras.json")
 
 # create a .Rprofile at ~
 
-file.create("~/.Rprofile")
-profile <- 'Sys.setenv(KERAS_BACKEND="cntk"); Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5")'
-writeLines(profile, con="~/.Rprofile")
+file.create("~/.Rprofile", overwrite=TURE)
+r_profile <- 'Sys.setenv(KERAS_BACKEND="cntk"); Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5")'
+writeLines(r_profile, con="~/.Rprofile")
