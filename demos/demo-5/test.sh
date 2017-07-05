@@ -10,4 +10,4 @@ mkdir /home/$USER/lelele
 
 mkdir $HOME/lelelele
 
-eval "mkdir $HOME/lelelele"
+eval mkdir $HOME/lelelele
