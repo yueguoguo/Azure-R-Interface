@@ -1,3 +1,3 @@
-mkdir ~/.lele
+mkdir etc/.lele
 
-echo "test" > ~/.lele/lele
+echo "test" > etc/.lele/lele
