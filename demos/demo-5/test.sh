@@ -9,3 +9,5 @@ cp /etc/.lele/lele /home/dsvmuser/lele
 mkdir /home/$USER/lelele
 
 mkdir $HOME/lelelele
+
+eval "mkdir $HOME/lelelele"
