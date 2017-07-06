@@ -6,7 +6,7 @@ Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate");dev
 
 # create keras config json file.
 
-mkdir ~/.keras
+mkdir /etc/skel/.keras
 # cat > ~/.keras/kears.json << EOF
 # {
 #    "floatx":"float32",
@@ -16,7 +16,7 @@ mkdir ~/.keras
 # }
 # EOF
 
-echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > ~/.keras/keras.json
+echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"backend":"cntk"}' > /etc/skel/.keras/keras.json
 
 # export environment variables.
 
@@ -25,8 +25,22 @@ echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"b
 # Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python")
 # EOF
 
-echo 'Sys.setenv(KERAS_BACKEND="cntk")' > .Rprofile
-echo 'Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5")' >> .Rprofile
+echo 'Sys.setenv(KERAS_BACKEND="cntk")' > /etc/skel/.Rprofile
+echo 'Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5")' >> /etc/skel/.Rprofile
+
+# cp /etc/skel to home directory of all users.
+
+USR=$(ls /home | grep user)
+
+for u in ${USR}; do
+  DBASE="/home/$u/"
+  
+  cp -rf /etc/skel/.keras ${DBASE}/
+  cp cat /etc/skel/.Rprofile >> ${DBASE}/.Rprofile
+  
+  chown -R $u.$u ${DBASE}/.keras
+  chown -R $u.$u ${DBASE}/.Rprofile
+done 
 
 # turn on Rstudio server.
 
