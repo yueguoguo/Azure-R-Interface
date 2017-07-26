@@ -14,6 +14,11 @@ echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"b
 echo 'Sys.setenv(KERAS_BACKEND="cntk")' > /etc/skel/.Rprofile
 echo 'Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5")' >> /etc/skel/.Rprofile
 
+# create a new user
+
+useradd -m -d /home/newuser newuser
+echo "newuser:Not$ecure123" | sudo chpasswd
+
 # cp /etc/skel to home directory of all users.
 
 USR=$(ls /home | grep user)
