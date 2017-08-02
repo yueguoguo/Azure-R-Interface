@@ -7,8 +7,7 @@
 # create a new lib to install keras R interface. 
 
 mkdir R
-cd R
-mkdir lib
+mkdir R/lib
 
 Rscript -e "library(devtools);library(withr);with_libpaths(new='~/R/lib/', install_github(c('rstudio/reticulate', 'gaborcsardi/debugme', 'r-lib/processx', 'rstudio/tfruns', 'rstudio/keras')))"
 Rscript -e ".libPaths(c(.libPaths(), '~/R/lib'))"
