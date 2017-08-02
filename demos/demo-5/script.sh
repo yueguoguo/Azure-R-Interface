@@ -2,14 +2,9 @@
 
 # install R libraries.
 
-# Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate");devtools::install_github("gaborcsardi/debugme");source("https://install-github.me/MangoTheCat/processx")'
+sudo Rscript -e 'library(devtools);devtools::install_github("rstudio/reticulate");devtools::install_github("gaborcsardi/debugme");source("https://install-github.me/MangoTheCat/processx")'
 
-# create a new lib to install keras R interface. 
-
-mkdir R
-mkdir R/lib
-
-Rscript -e "library(devtools);library(withr);with_libpaths(new='~/R/lib/', install_github(c('rstudio/reticulate', 'gaborcsardi/debugme', 'r-lib/processx', 'rstudio/tfruns', 'rstudio/keras')))"
+#Rscript -e "library(devtools);library(withr);with_libpaths(new='~/R/lib/', install_github(c('rstudio/reticulate', 'gaborcsardi/debugme', 'r-lib/processx', 'rstudio/tfruns', 'rstudio/keras')))"
 
 # create keras config json file.
 
