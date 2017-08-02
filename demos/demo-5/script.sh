@@ -10,7 +10,6 @@ mkdir R
 mkdir R/lib
 
 Rscript -e "library(devtools);library(withr);with_libpaths(new='~/R/lib/', install_github(c('rstudio/reticulate', 'gaborcsardi/debugme', 'r-lib/processx', 'rstudio/tfruns', 'rstudio/keras')))"
-Rscript -e ".libPaths(c(.libPaths(), '~/R/lib'))"
 
 # create keras config json file.
 
@@ -21,6 +20,7 @@ echo '{"floatx":"float32","image_data_format":"channels_last","epsilon":1e-07,"b
 
 echo 'Sys.setenv(KERAS_BACKEND="cntk")' > /etc/skel/.Rprofile
 echo 'Sys.setenv(KERAS_PYTHON="/anaconda/envs/py35/bin/python3.5")' >> /etc/skel/.Rprofile
+echo '.libPaths(c(.libPaths(), "~/R/lib"))' >> /etc/skel/.Rprofile
 
 # create a new user
 
